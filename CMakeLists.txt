@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(PolePositionCR_Server C)
+
+set(CMAKE_C_STANDARD 99)
+
+add_executable(PolePositionCR_Server main.c)
+
+add_executable(PolePositionCR_Client client.c)

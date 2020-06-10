@@ -56,7 +56,6 @@ int main() {
         return -1;
     }
 
-    int new_socket, val_read;
     char buffer[1024] = {0};
     char *msg = "Hello from server!";
 

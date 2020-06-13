@@ -58,7 +58,6 @@ cJSON *create_track() {
     cJSON_AddNumberToObject(track, "length", TRACK_LENGTH);
     cJSON *curves = cJSON_CreateArray();
 
-    //TODO: realizar las curvas de la pista (rango de líneas).
     cJSON_AddItemToArray(curves, make_curve(5.2, 300, 450));
     cJSON_AddItemToArray(curves, make_curve(-2.7, 500, 600));
     cJSON_AddItemToArray(curves, make_curve(1.5, 700, 900));

@@ -12,7 +12,10 @@
 #include <unistd.h>
 #include <string.h>
 
-int port;
+#define SERVER_PORT 8080
+#define TRACK_LENGTH 1800
+const cJSON *action = NULL;
+
 int server_fd, new_socket, val_read;
 struct sockaddr_in address;
 int addr_len;

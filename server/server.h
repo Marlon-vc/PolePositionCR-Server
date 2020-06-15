@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "../json/cJSON.h"
+#include "../structures/linkedlist.h"
 
 int init_config();
 

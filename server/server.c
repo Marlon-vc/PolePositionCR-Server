@@ -70,6 +70,40 @@ cJSON *create_track() {
 }
 
 int start() {
+//
+//    printf("Test linked list \n");
+//    struct value valor;
+//    strcpy(valor.color, "");
+//    valor.available = -1;
+//
+//    struct value valor1;
+//    strcpy(valor1.color, "Rojo");
+//    valor1.available = 0;
+//
+//    struct value valor2;
+//    strcpy(valor2.color, "Azul");
+//    valor2.available = 1;
+//
+//    struct value valor3;
+//    strcpy(valor3.color, "Morado");
+//    valor3.available = 1;
+//
+//    node_t * head = NULL;
+//    head = (node_t *) malloc(sizeof(node_t));
+//    head->valor = valor;
+//    head->next = NULL;
+//
+//    insert_end(head, valor1);
+//    insert_end(head, valor2);
+//    insert(head, valor3);
+//    print_list(head);
+//    printf("\n");
+//    printf("Cambiando disponibilidad del carro azul \n");
+////    remove_at(head, 2);
+//    modify_availability(head, "Azul", 0);
+//    print_list(head);
+//    printf("\n");
+
     int init_status = init_config();
     if (init_status < 0) {
         perror("[Error] Failed to initialize server.\n");

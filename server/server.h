@@ -23,6 +23,8 @@ void loadCarList();
 
 void loadPlayerList();
 
+void set_new_player(cJSON *data);
+
 void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives);
 
 void remove_player(cJSON *carColor);
@@ -42,5 +44,7 @@ cJSON *create_track();
 int start();
 
 void prueba();
+
+int server_running;
 
 #endif //POLEPOSITIONCR_SERVER_SERVER_H

@@ -2,8 +2,8 @@
 // Created by pvill on 15/6/2020.
 //
 
-#ifndef POLEPOSITIONCR_SERVER_LINKEDLIST_H
-#define POLEPOSITIONCR_SERVER_LINKEDLIST_H
+#ifndef POLEPOSITIONCR_SERVER_CAR_LINKED_LIST_H
+#define POLEPOSITIONCR_SERVER_CAR_LINKED_LIST_H
 
 #include <stdlib.h>
 
@@ -35,4 +35,4 @@ void print_list(node_t * head);
 
 void modify_availability(node_t * head, char * carColor, int newAvailability);
 
-#endif //POLEPOSITIONCR_SERVER_LINKEDLIST_H
+#endif //POLEPOSITIONCR_SERVER_CAR_LINKED_LIST_H

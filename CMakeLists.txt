@@ -3,6 +3,6 @@ project(PolePositionCR_Server C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(PolePositionCR_Server main.c constants.h json/cJSON.h json/cJSON.c server/server.c server/server.h structures/linkedlist.h structures/linkedlist.c structures/player_linked_list.h structures/player_linked_list.c)
+add_executable(PolePositionCR_Server main.c constants.h json/cJSON.h json/cJSON.c server/server.c server/server.h structures/car_linked_list.h structures/car_linked_list.c structures/player_linked_list.h structures/player_linked_list.c structures/hole_linked_list.c structures/hole_linked_list.h structures/live_linked_list.h structures/live_linked_list.c structures/turbo_linked_list.c structures/turbo_linked_list.h)
 
 add_executable(PolePositionCR_Client client.c)

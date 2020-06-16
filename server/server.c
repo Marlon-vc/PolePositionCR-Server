@@ -241,97 +241,72 @@ cJSON *get_players_list() {
 }
 
 void prueba() {
-//    struct player p1;
-//    struct player p2;
-//    struct player p3;
-//    struct player p4;
+    struct player p1 = {0, 0, 0, 3, "Rojo", 0};
+    struct player p2 = {0, 0, 0, 3, "Azul", 0};
+    struct player p3 = {0, 0, 0, 3, "Morado", 0};
+    struct player p4 = {0, 0, 0, 3, "Blanco", 0};
+
+    insert_end_p(playerList, p1);
+    insert_end_p(playerList, p2);
+    insert_end_p(playerList, p3);
+    insert_end_p(playerList, p4);
+    printf("\n");
+    print_list_p(playerList);
+    printf("\n");
+    increase_live(playerList, "Rojo");
+    increase_points(playerList, "Rojo", 20);
+    print_list_p(playerList);
+    printf("\n");
+//    struct hole h1 = {0, 20, 30};
+//    struct hole h2 = {1, 50, 40};
+//    struct hole h3 = {2, 40, 60};
 //
-//    p1.playerX = 0;
-//    p1.pos = 0;
-//    p1.id = 0;
-//    p1.lives = 3;
-//    strcpy(p1.car_color, "Rojo");
+//    struct live l1 = {0, 10, 50};
+//    struct live l2 = {1, 20, 40};
+//    struct live l3 = {2, 30, 30};
 //
-//    p2.playerX = 0;
-//    p2.pos = 0;
-//    p2.id = 0;
-//    p2.lives = 3;
-//    strcpy(p2.car_color, "Azul");
+//    struct turbo t1 = {0, 90, 40};
+//    struct turbo t2 = {1, 100, 0};
+//    struct turbo t3 = {2, 30, 20};
 //
-//    p3.playerX = 0;
-//    p3.pos = 0;
-//    p3.id = 0;
-//    p3.lives = 3;
-//    strcpy(p3.car_color, "Morado");
+//    insert_end_h(holeList, h1);
+//    insert_end_h(holeList, h2);
+//    insert_end_h(holeList, h3);
 //
-//    p4.playerX = 0;
-//    p4.pos = 0;
-//    p4.id = 0;
-//    p4.lives = 3;
-//    strcpy(p4.car_color, "Blanco");
+//    insert_end_l(livesList, l1);
+//    insert_end_l(livesList, l2);
+//    insert_end_l(livesList, l3);
 //
-//    insert_end_p(playerList, p1);
-//    insert_end_p(playerList, p2);
-//    insert_end_p(playerList, p3);
-//    insert_end_p(playerList, p4);
+//    insert_end_t(turboList, t1);
+//    insert_end_t(turboList, t2);
+//    insert_end_t(turboList, t3);
+//
 //    printf("\n");
-//    print_list_p(playerList);
+//    print_list_h(holeList);
 //    printf("\n");
-//    int pos = find_player_pos(playerList, "Morado");
+//    int pos = find_hole_pos(holeList, 1);
 //    printf("pos to delete %i \n", pos);
-//    remove_at_p(playerList, pos);
-//    print_list_p(playerList);
+//    remove_at_h(holeList, pos);
+//    print_list_h(holeList);
 //    printf("\n");
-    struct hole h1 = {0, 20, 30};
-    struct hole h2 = {1, 50, 40};
-    struct hole h3 = {2, 40, 60};
-
-    struct live l1 = {0, 10, 50};
-    struct live l2 = {1, 20, 40};
-    struct live l3 = {2, 30, 30};
-
-    struct turbo t1 = {0, 90, 40};
-    struct turbo t2 = {1, 100, 0};
-    struct turbo t3 = {2, 30, 20};
-
-    insert_end_h(holeList, h1);
-    insert_end_h(holeList, h2);
-    insert_end_h(holeList, h3);
-
-    insert_end_l(livesList, l1);
-    insert_end_l(livesList, l2);
-    insert_end_l(livesList, l3);
-
-    insert_end_t(turboList, t1);
-    insert_end_t(turboList, t2);
-    insert_end_t(turboList, t3);
-
-    printf("\n");
-    print_list_h(holeList);
-    printf("\n");
-    int pos = find_hole_pos(holeList, 1);
-    printf("pos to delete %i \n", pos);
-    remove_at_h(holeList, pos);
-    print_list_h(holeList);
-    printf("\n");
-
-    printf("\n");
-    print_list_l(livesList);
-    printf("\n");
-    int pos1 = find_live_pos(livesList, 2);
-    printf("pos to delete %i \n", pos1);
-    remove_at_l(livesList, pos1);
-    print_list_l(livesList);
-    printf("\n");
-
-    printf("\n");
-    print_list_t(turboList);
-    printf("\n");
-    int pos2 = find_turbo_pos(turboList, 0);
-    printf("pos to delete %i \n", pos2);
-    remove_at_t(turboList, pos2);
-    print_list_t(turboList);
-    printf("\n");
+//
+//    printf("\n");
+//    print_list_l(livesList);
+//    printf("\n");
+//    int pos1 = find_live_pos(livesList, 2);
+//    printf("pos to delete %i \n", pos1);
+//    remove_at_l(livesList, pos1);
+//    print_list_l(livesList);
+//    printf("\n");
+//
+//    printf("\n");
+//    print_list_t(turboList);
+//    printf("\n");
+//    int pos2 = find_turbo_pos(turboList, 0);
+//    printf("pos to delete %i \n", pos2);
+//    remove_at_t(turboList, pos2);
+//    print_list_t(turboList);
+//    printf("\n");
 
 }
 

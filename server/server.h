@@ -8,6 +8,7 @@
 #include <string.h>
 #include "../json/cJSON.h"
 #include "../structures/linkedlist.h"
+#include "../structures/player_linked_list.h"
 
 struct car head_s;
 struct car red_car;
@@ -15,6 +16,8 @@ struct car blue_car;
 struct car purple_car;
 struct car white_car;
 node_t * head;
+
+node_p_t * playerList;
 
 void loadCarList();
 

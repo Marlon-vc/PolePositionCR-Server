@@ -49,6 +49,8 @@ char * remove_last(node_t * head) {
     strcpy(retVal, tmp->next->valor.color);
     free(tmp->next);
     tmp->next = NULL;
+
+    return retVal;
 }
 
 char * remove_at(node_t * head, int n) {

@@ -92,6 +92,49 @@ void loadCarList() {
     insert_end(head, purple_car);
     insert_end(head, white_car);
 
+    struct player player0;
+    struct player player1;
+    struct player player2;
+    struct player player3;
+
+    player0.id = -1;
+    strcpy(player0.car_color, "");
+    player0.lives = -1;
+    player0.playerX = -1;
+    player0.pos = -1;
+
+    player1.id = 1;
+    strcpy(player1.car_color, "RED");
+    player1.lives = 3;
+    player1.playerX = 20;
+    player1.pos = 20;
+
+    player2.id = 2;
+    strcpy(player2.car_color, "BLUE");
+    player2.lives = 2;
+    player2.playerX = 10;
+    player2.pos = 40;
+
+    player3.id = 3;
+    strcpy(player3.car_color, "WHITE");
+    player3.lives = 1;
+    player3.playerX = 50;
+    player3.pos = 70;
+
+    playerList = NULL;
+    playerList = (node_p_t *) malloc(sizeof(node_p_t));
+    playerList->value = player0;
+    playerList->next = NULL;
+
+    insert_end_p(playerList, player1);
+    insert_end_p(playerList, player2);
+    insert_end_p(playerList, player3);
+
+    print_list_p(playerList);
+    printf("\n");
+
+
+
 }
 
 cJSON *get_available_cars() {

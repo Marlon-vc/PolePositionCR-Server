@@ -10,20 +10,20 @@
 #include <stdio.h>
 #include <string.h>
 
-struct value {
+struct car {
     char color[80];
     int available;
 };
 
 typedef struct node {
-    struct value valor ;
+    struct car valor ;
     struct node * next;
 } node_t;
 
 
-void insert_end(node_t * head, struct value valor); // agrega un elemento al final
+void insert_end(node_t * head, struct car valor); // agrega un elemento al final
 
-void insert(node_t * head, struct value valor); // agrega al inicio
+void insert(node_t * head, struct car valor); // agrega al inicio
 
 char * remove_first(node_t * head);
 

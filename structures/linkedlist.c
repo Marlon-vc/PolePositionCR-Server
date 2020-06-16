@@ -5,7 +5,7 @@
 #include "linkedlist.h"
 
 
-void insert_end(node_t * head, struct value valor) {
+void insert_end(node_t * head, struct car valor) {
     node_t *tmp = head;
 
     while (tmp->next != NULL) {
@@ -16,7 +16,7 @@ void insert_end(node_t * head, struct value valor) {
     tmp->next->next = NULL;
 }
 
-void insert(node_t * head, struct value valor) {
+void insert(node_t * head, struct car valor) {
     node_t * new_node;
     new_node = (node_t *) malloc(sizeof(node_t));
 

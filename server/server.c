@@ -1,6 +1,7 @@
 #include "server.h"
 #include "../constants.h"
 
+
 int init_config() {
     int opt = 1;
 
@@ -69,40 +70,61 @@ cJSON *create_track() {
     return track;
 }
 
+void loadCarList() {
+    strcpy(head_s.color, "");
+    head_s.available = -1;
+    strcpy(red_car.color, "Rojo");
+    red_car.available = 1;
+    strcpy(blue_car.color, "Azul");
+    blue_car.available = 1;
+    strcpy(purple_car.color, "Morado");
+    purple_car.available = 1;
+    strcpy(white_car.color, "Blanco");
+    white_car.available = 1;
+
+    head = NULL;
+    head = (node_t *) malloc(sizeof(node_t));
+    head->valor = head_s;
+    head->next = NULL;
+
+    insert_end(head, red_car);
+    insert_end(head, blue_car);
+    insert_end(head, purple_car);
+    insert_end(head, white_car);
+
+}
+
+cJSON *get_available_cars() {
+    node_t * tmp = head;
+    cJSON *cars = cJSON_CreateObject();
+    cJSON *array_of_cars = cJSON_CreateArray();
+    while (tmp != NULL) {
+        if (tmp->valor.available == 1) {
+            cJSON_AddItemToArray(array_of_cars, cJSON_CreateString(tmp->valor.color));
+        }
+        tmp = tmp->next;
+    }
+    cJSON_AddItemToObject(cars, "array_cars", array_of_cars);
+    return cars;
+}
+
+void set_available_cars(cJSON *carColor) {
+    if (cJSON_IsString(carColor) && (carColor->valuestring != NULL)) {
+        printf("[Action] %s.\n", carColor->valuestring);
+    }
+    node_t *tmp = head;
+    while (tmp != NULL) {
+        if (strcmp(carColor->valuestring, tmp->valor.color) == 0) {
+            tmp->valor.available = 0;
+        }
+        tmp = tmp->next;
+    }
+    print_list(head);
+
+}
+
 int start() {
-//
-//    printf("Test linked list \n");
-//    struct value valor;
-//    strcpy(valor.color, "");
-//    valor.available = -1;
-//
-//    struct value valor1;
-//    strcpy(valor1.color, "Rojo");
-//    valor1.available = 0;
-//
-//    struct value valor2;
-//    strcpy(valor2.color, "Azul");
-//    valor2.available = 1;
-//
-//    struct value valor3;
-//    strcpy(valor3.color, "Morado");
-//    valor3.available = 1;
-//
-//    node_t * head = NULL;
-//    head = (node_t *) malloc(sizeof(node_t));
-//    head->valor = valor;
-//    head->next = NULL;
-//
-//    insert_end(head, valor1);
-//    insert_end(head, valor2);
-//    insert(head, valor3);
-//    print_list(head);
-//    printf("\n");
-//    printf("Cambiando disponibilidad del carro azul \n");
-////    remove_at(head, 2);
-//    modify_availability(head, "Azul", 0);
-//    print_list(head);
-//    printf("\n");
+    loadCarList(); //Cargar la lista de carros
 
     int init_status = init_config();
     if (init_status < 0) {
@@ -159,6 +181,14 @@ int start() {
             //TODO: actualizar estado?
             cJSON_AddStringToObject(response, "status", "success");
 
+        } else if (strcmp(action->valuestring, "get_cars") == 0) {
+            printf("[Info] Requesting cars update.\n");
+            cJSON_AddStringToObject(response, "status", "success");
+            cJSON_AddItemToObject(response, "cars", get_available_cars());
+        } else if (strcmp(action->valuestring, "set_cars") == 0) {
+            printf("[Info] Setting cars update.\n");
+            cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "carColor");
+            set_available_cars(color);
         } else {
             printf("[Warning] Unknown client action request.\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");
@@ -180,3 +210,5 @@ int start() {
     printf("[Info] Shutting down server.\n");
     return 0;
 }
+
+

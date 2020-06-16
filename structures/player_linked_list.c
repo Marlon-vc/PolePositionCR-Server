@@ -109,10 +109,10 @@ void print_list_p(node_p_t * head) {
             printf("[");
         }
         if (tmp->next == NULL) {
-            printf("id:%i pos:%i playerX:%i lives:%i car color:%s]", tmp->value.id, tmp->value.pos, tmp->value.playerX,
+            printf("[id:%i pos:%i playerX:%i lives:%i car color:%s]]", tmp->value.id, tmp->value.pos, tmp->value.playerX,
                     tmp->value.lives, tmp->value.car_color);
         } else {
-            printf("id:%i pos:%i playerX:%i lives:%i car color:%s, ", tmp->value.id, tmp->value.pos, tmp->value.playerX,
+            printf("[id:%i pos:%i playerX:%i lives:%i car color:%s], ", tmp->value.id, tmp->value.pos, tmp->value.playerX,
                     tmp->value.lives, tmp->value.car_color);
         }
         tmp = tmp->next;

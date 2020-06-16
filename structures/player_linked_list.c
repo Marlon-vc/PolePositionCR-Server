@@ -58,7 +58,7 @@ int remove_at_p(node_p_t * head, int n) {
 
     if (n == 0)
         return remove_first_p(head);
-    current = current->next;
+//    current = current->next;
     for (i = 0; i < n-1; i++) {
         if (current->next == NULL)
             return -1;
@@ -70,6 +70,32 @@ int remove_at_p(node_p_t * head, int n) {
     free(tmp);
 
     return retVal;
+}
+
+void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color) {
+    node_p_t * tmp = head;
+    while (tmp != NULL) {
+        if (strcmp(car_color, tmp->value.car_color) == 0) {
+            tmp->value.pos = pos;
+            tmp->value.playerX = playerX;
+            tmp->value.lives = lives;
+            break;
+        }
+        tmp = tmp->next;
+    }
+}
+
+int find_player_pos(node_p_t * head, char * car_color) {
+    int pos = 0;
+    node_p_t *tmp = head;
+    while (tmp != NULL) {
+        if (strcmp(car_color, tmp->value.car_color) == 0) {
+            return pos;
+        }
+        pos++;
+        tmp = tmp->next;
+    }
+    return -1;
 }
 
 void print_list_p(node_p_t * head) {

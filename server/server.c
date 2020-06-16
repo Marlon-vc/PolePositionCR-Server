@@ -107,7 +107,6 @@ void loadPlayerList() {
     playerList->next = NULL;
 }
 
-
 void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives) {
     struct player player1;
     player1.id = 1;
@@ -116,6 +115,16 @@ void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives) {
     player1.playerX = playerX->valueint;
     strcpy(player1.car_color, carColor->valuestring);
     insert_end_p(playerList, player1);
+}
+
+void remove_player(cJSON *carColor) {
+    int pos = find_player_pos(playerList, carColor->valuestring);
+    remove_at_p(playerList, pos);
+    modify_availability(head, carColor->valuestring, 1);
+}
+
+void update_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives) {
+    modify_player(playerList, pos->valueint, playerX->valueint, lives->valueint, carColor->valuestring);
 }
 
 cJSON *get_available_cars() {
@@ -136,14 +145,7 @@ void set_available_cars(cJSON *carColor) {
     if (cJSON_IsString(carColor) && (carColor->valuestring != NULL)) {
         printf("[Car color] %s.\n", carColor->valuestring);
     }
-    node_t *tmp = head;
-    while (tmp != NULL) {
-        if (strcmp(carColor->valuestring, tmp->valor.color) == 0) {
-            tmp->valor.available = 0;
-        }
-        tmp = tmp->next;
-    }
-
+    modify_availability(head, carColor->valuestring, 0);
 }
 
 cJSON *get_players_list() {
@@ -164,9 +166,56 @@ cJSON *get_players_list() {
     return players;
 }
 
+void prueba() {
+    struct player p1;
+    struct player p2;
+    struct player p3;
+    struct player p4;
+
+    p1.playerX = 0;
+    p1.pos = 0;
+    p1.id = 0;
+    p1.lives = 3;
+    strcpy(p1.car_color, "Rojo");
+
+    p2.playerX = 0;
+    p2.pos = 0;
+    p2.id = 0;
+    p2.lives = 3;
+    strcpy(p2.car_color, "Azul");
+
+    p3.playerX = 0;
+    p3.pos = 0;
+    p3.id = 0;
+    p3.lives = 3;
+    strcpy(p3.car_color, "Morado");
+
+    p4.playerX = 0;
+    p4.pos = 0;
+    p4.id = 0;
+    p4.lives = 3;
+    strcpy(p4.car_color, "Blanco");
+
+    insert_end_p(playerList, p1);
+    insert_end_p(playerList, p2);
+    insert_end_p(playerList, p3);
+    insert_end_p(playerList, p4);
+    printf("\n");
+    print_list_p(playerList);
+    printf("\n");
+    int pos = find_player_pos(playerList, "Morado");
+    printf("pos to delete %i \n", pos);
+    remove_at_p(playerList, pos);
+    print_list_p(playerList);
+    printf("\n");
+
+
+}
+
 int start() {
     loadCarList(); //Cargar la lista de carros
     loadPlayerList();
+//    prueba();
 
     int init_status = init_config();
     if (init_status < 0) {

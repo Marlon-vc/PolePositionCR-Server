@@ -78,10 +78,9 @@ char * remove_at(node_t * head, int n) {
 void modify_availability(node_t * head, char * carColor, int newAvailability) {
     node_t * tmp = head;
     while (tmp != NULL) {
-        char *color = tmp->valor.color;
-        if (strcmp(color, carColor) == 0) {
+        if (strcmp(tmp->valor.color, carColor) == 0) {
             tmp->valor.available = newAvailability;
-            return;
+            break;
         }
         tmp = tmp->next;
     }

@@ -33,6 +33,10 @@ int remove_last_p(node_p_t * head);
 
 int remove_at_p(node_p_t * head, int n);
 
+void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color);
+
+int find_player_pos(node_p_t * head, char * car_color);
+
 void print_list_p(node_p_t * head);
 
 #endif //POLEPOSITIONCR_SERVER_PLAYER_LINKED_LIST_H

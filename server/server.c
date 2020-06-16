@@ -91,50 +91,31 @@ void loadCarList() {
     insert_end(head, blue_car);
     insert_end(head, purple_car);
     insert_end(head, white_car);
+}
 
+void loadPlayerList() {
     struct player player0;
-    struct player player1;
-    struct player player2;
-    struct player player3;
-
     player0.id = -1;
     strcpy(player0.car_color, "");
     player0.lives = -1;
     player0.playerX = -1;
     player0.pos = -1;
 
-    player1.id = 1;
-    strcpy(player1.car_color, "RED");
-    player1.lives = 3;
-    player1.playerX = 20;
-    player1.pos = 20;
-
-    player2.id = 2;
-    strcpy(player2.car_color, "BLUE");
-    player2.lives = 2;
-    player2.playerX = 10;
-    player2.pos = 40;
-
-    player3.id = 3;
-    strcpy(player3.car_color, "WHITE");
-    player3.lives = 1;
-    player3.playerX = 50;
-    player3.pos = 70;
-
     playerList = NULL;
     playerList = (node_p_t *) malloc(sizeof(node_p_t));
     playerList->value = player0;
     playerList->next = NULL;
+}
 
+
+void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives) {
+    struct player player1;
+    player1.id = 1;
+    player1.pos = pos->valueint;
+    player1.lives = lives->valueint;
+    player1.playerX = playerX->valueint;
+    strcpy(player1.car_color, carColor->valuestring);
     insert_end_p(playerList, player1);
-    insert_end_p(playerList, player2);
-    insert_end_p(playerList, player3);
-
-    print_list_p(playerList);
-    printf("\n");
-
-
-
 }
 
 cJSON *get_available_cars() {
@@ -153,7 +134,7 @@ cJSON *get_available_cars() {
 
 void set_available_cars(cJSON *carColor) {
     if (cJSON_IsString(carColor) && (carColor->valuestring != NULL)) {
-        printf("[Action] %s.\n", carColor->valuestring);
+        printf("[Car color] %s.\n", carColor->valuestring);
     }
     node_t *tmp = head;
     while (tmp != NULL) {
@@ -162,12 +143,30 @@ void set_available_cars(cJSON *carColor) {
         }
         tmp = tmp->next;
     }
-    print_list(head);
 
+}
+
+cJSON *get_players_list() {
+    node_p_t *tmp = playerList;
+    tmp = tmp->next;
+    cJSON *players = cJSON_CreateArray();
+    while (tmp != NULL) {
+        cJSON *player = cJSON_CreateObject();
+        cJSON_AddNumberToObject(player, "lives", tmp->value.lives);
+        cJSON_AddNumberToObject(player, "playerX", tmp->value.playerX);
+        cJSON_AddNumberToObject(player, "pos", tmp->value.pos);
+        cJSON_AddStringToObject(player, "carColor", tmp->value.car_color);
+
+        cJSON_AddItemToArray(players, player);
+        tmp = tmp->next;
+    }
+
+    return players;
 }
 
 int start() {
     loadCarList(); //Cargar la lista de carros
+    loadPlayerList();
 
     int init_status = init_config();
     if (init_status < 0) {
@@ -177,7 +176,7 @@ int start() {
 
     char buffer[2048] = {0};
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1000; i++) {
         printf("[Info] Waiting for connection.\n");
         if ((new_socket = accept(server_fd, (struct sockaddr *) &address, (socklen_t *) &addr_len)) < 0) {
             perror("[Warning] Failed to accept incoming connection.\n");
@@ -232,7 +231,20 @@ int start() {
             printf("[Info] Setting cars update.\n");
             cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "carColor");
             set_available_cars(color);
-        } else {
+        } else if (strcmp(action->valuestring, "add_player") == 0) {
+            printf("[Info] Setting new player.\n");
+            cJSON *pos = cJSON_GetObjectItemCaseSensitive(json, "pos");
+            cJSON *playerX= cJSON_GetObjectItemCaseSensitive(json, "playerX");
+            cJSON *carColor= cJSON_GetObjectItemCaseSensitive(json, "carColor");
+            cJSON *lives= cJSON_GetObjectItemCaseSensitive(json, "lives");
+            add_player(pos, playerX, carColor, lives);
+            print_list_p(playerList);
+            printf("\n");
+        }else if (strcmp(action->valuestring, "get_players") == 0) {
+            printf("[Info] Requesting players list.\n");
+            cJSON_AddStringToObject(response, "status", "success");
+            cJSON_AddItemToObject(response, "players", get_players_list());
+        }else {
             printf("[Warning] Unknown client action request.\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");
         }

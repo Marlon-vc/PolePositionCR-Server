@@ -21,7 +21,13 @@ node_p_t * playerList;
 
 void loadCarList();
 
+void loadPlayerList();
+
+void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives);
+
 cJSON *get_available_cars();
+
+cJSON *get_players_list();
 
 void set_available_cars(cJSON *carColor);
 

@@ -14,6 +14,7 @@
 
 #define SERVER_PORT 8080
 #define TRACK_LENGTH 1800
+#define BUFFER_SIZE 4096
 const cJSON *action = NULL;
 
 int server_fd, new_socket, val_read;

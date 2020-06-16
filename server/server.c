@@ -212,7 +212,18 @@ void prueba() {
 
 }
 
+void set_new_player(cJSON *data) {
+    cJSON *pos = cJSON_GetObjectItemCaseSensitive(data, "pos");
+    cJSON *playerX= cJSON_GetObjectItemCaseSensitive(data, "playerX");
+    cJSON *carColor= cJSON_GetObjectItemCaseSensitive(data, "carColor");
+    cJSON *lives= cJSON_GetObjectItemCaseSensitive(data, "lives");
+    add_player(pos, playerX, carColor, lives);
+    print_list_p(playerList);
+    printf("\n");
+}
+
 int start() {
+    server_running= 1;
     loadCarList(); //Cargar la lista de carros
     loadPlayerList();
 //    prueba();
@@ -223,16 +234,19 @@ int start() {
         return -1;
     }
 
-    char buffer[2048] = {0};
+    char buffer[BUFFER_SIZE] = {0};
 
-    for (int i = 0; i < 1000; i++) {
+
+    while (server_running == 1) {
+//    for (int i = 0; i < 1000; i++) {
         printf("[Info] Waiting for connection.\n");
         if ((new_socket = accept(server_fd, (struct sockaddr *) &address, (socklen_t *) &addr_len)) < 0) {
             perror("[Warning] Failed to accept incoming connection.\n");
+            memset(buffer, 0, sizeof(buffer));
             continue;
         }
 
-        val_read = read(new_socket, buffer, 2048);
+        val_read = read(new_socket, buffer, BUFFER_SIZE);
         cJSON *json =  cJSON_Parse(buffer);
         if (json == NULL) {
             printf("[Error] Could not parse client data.\n");
@@ -274,28 +288,27 @@ int start() {
 
         } else if (strcmp(action->valuestring, "get_cars") == 0) {
             printf("[Info] Requesting cars update.\n");
-            cJSON_AddStringToObject(response, "status", "success");
             cJSON_AddItemToObject(response, "cars", get_available_cars());
+            cJSON_AddStringToObject(response, "status", "success");
+
         } else if (strcmp(action->valuestring, "set_cars") == 0) {
             printf("[Info] Setting cars update.\n");
             cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "carColor");
             set_available_cars(color);
+
         } else if (strcmp(action->valuestring, "add_player") == 0) {
             printf("[Info] Setting new player.\n");
-            cJSON *pos = cJSON_GetObjectItemCaseSensitive(json, "pos");
-            cJSON *playerX= cJSON_GetObjectItemCaseSensitive(json, "playerX");
-            cJSON *carColor= cJSON_GetObjectItemCaseSensitive(json, "carColor");
-            cJSON *lives= cJSON_GetObjectItemCaseSensitive(json, "lives");
-            add_player(pos, playerX, carColor, lives);
-            print_list_p(playerList);
-            printf("\n");
+            set_new_player(json);
+
         }else if (strcmp(action->valuestring, "get_players") == 0) {
             printf("[Info] Requesting players list.\n");
-            cJSON_AddStringToObject(response, "status", "success");
             cJSON_AddItemToObject(response, "players", get_players_list());
+            cJSON_AddStringToObject(response, "status", "success");
+
         }else {
             printf("[Warning] Unknown client action request.\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");
+
         }
 
         char *response_string = cJSON_Print(response);
@@ -304,11 +317,14 @@ int start() {
             cJSON_Delete(response);
             cJSON_Delete(json);
             continue;
+
         }
 
         send(new_socket, response_string, strlen(response_string), 0);
         cJSON_Delete(response);
         cJSON_Delete(json);
+        fflush(NULL);
+        buffer[0] = '\0';
     }
 
     printf("[Info] Shutting down server.\n");

@@ -72,13 +72,14 @@ int remove_at_p(node_p_t * head, int n) {
     return retVal;
 }
 
-void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color) {
+void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color, int points) {
     node_p_t * tmp = head;
     while (tmp != NULL) {
         if (strcmp(car_color, tmp->value.car_color) == 0) {
             tmp->value.pos = pos;
             tmp->value.playerX = playerX;
             tmp->value.lives = lives;
+            tmp->value.points = points;
             break;
         }
         tmp = tmp->next;
@@ -98,6 +99,28 @@ int find_player_pos(node_p_t * head, char * car_color) {
     return -1;
 }
 
+void increase_points(node_p_t * head, char * car_color, int points) {
+    node_p_t * tmp = head;
+    while (tmp != NULL) {
+        if (strcmp(car_color, tmp->value.car_color) == 0) {
+            tmp->value.points += points;
+            break;
+        }
+        tmp = tmp->next;
+    }
+}
+
+void increase_live(node_p_t * head, char * car_color) {
+    node_p_t * tmp = head;
+    while (tmp != NULL) {
+        if (strcmp(car_color, tmp->value.car_color) == 0) {
+            tmp->value.lives += 1;
+            break;
+        }
+        tmp = tmp->next;
+    }
+}
+
 void print_list_p(node_p_t * head) {
     node_p_t * tmp = head;
     tmp= tmp->next;
@@ -109,11 +132,11 @@ void print_list_p(node_p_t * head) {
             printf("[");
         }
         if (tmp->next == NULL) {
-            printf("[id:%i pos:%i playerX:%i lives:%i car color:%s]]", tmp->value.id, tmp->value.pos, tmp->value.playerX,
-                    tmp->value.lives, tmp->value.car_color);
+            printf("id:%i pos:%i playerX:%i lives:%i car color:%s points:%i]", tmp->value.id, tmp->value.pos, tmp->value.playerX,
+                    tmp->value.lives, tmp->value.car_color, tmp->value.points);
         } else {
-            printf("[id:%i pos:%i playerX:%i lives:%i car color:%s], ", tmp->value.id, tmp->value.pos, tmp->value.playerX,
-                    tmp->value.lives, tmp->value.car_color);
+            printf("id:%i pos:%i playerX:%i lives:%i car color:%s, points:%i, ", tmp->value.id, tmp->value.pos, tmp->value.playerX,
+                    tmp->value.lives, tmp->value.car_color, tmp->value.points);
         }
         tmp = tmp->next;
         i++;

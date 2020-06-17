@@ -16,6 +16,7 @@ struct player {
     int playerX;
     int lives;
     char car_color[80];
+    int points;
 };
 
 typedef struct node_p {
@@ -33,9 +34,13 @@ int remove_last_p(node_p_t * head);
 
 int remove_at_p(node_p_t * head, int n);
 
-void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color);
+void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color, int points);
 
 int find_player_pos(node_p_t * head, char * car_color);
+
+void increase_points(node_p_t * head, char * car_color, int points);
+
+void increase_live(node_p_t * head, char * car_color);
 
 void print_list_p(node_p_t * head);
 

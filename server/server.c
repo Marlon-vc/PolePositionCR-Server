@@ -70,7 +70,7 @@ cJSON *create_track() {
     return track;
 }
 
-void loadCarList() {
+void load_car_list() {
     strcpy(head_s.color, "");
     head_s.available = -1;
     strcpy(red_car.color, "Rojo");
@@ -82,18 +82,18 @@ void loadCarList() {
     strcpy(white_car.color, "Blanco");
     white_car.available = 1;
 
-    head = NULL;
-    head = (node_t *) malloc(sizeof(node_t));
-    head->valor = head_s;
-    head->next = NULL;
+    carsList = NULL;
+    carsList = (node_t *) malloc(sizeof(node_t));
+    carsList->valor = head_s;
+    carsList->next = NULL;
 
-    insert_end(head, red_car);
-    insert_end(head, blue_car);
-    insert_end(head, purple_car);
-    insert_end(head, white_car);
+    insert_end(carsList, red_car);
+    insert_end(carsList, blue_car);
+    insert_end(carsList, purple_car);
+    insert_end(carsList, white_car);
 }
 
-void loadPlayerList() {
+void load_player_list() {
     struct player player0;
     player0.id = -1;
     strcpy(player0.car_color, "");
@@ -107,28 +107,102 @@ void loadPlayerList() {
     playerList->next = NULL;
 }
 
-void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives) {
+void load_lives_list() {
+    struct live l0 = {-1, -1, -1};
+
+    livesList = NULL;
+    livesList = (node_l_t *) malloc(sizeof(node_l_t));
+    livesList->value = l0;
+    livesList->next = NULL;
+}
+
+void load_hole_list() {
+    struct hole h0 = {-1, -1, -1};
+
+    holeList = NULL;
+    holeList = (node_h_t *) malloc(sizeof(node_h_t));
+    holeList->value = h0;
+    holeList->next = NULL;
+}
+
+void load_turbo_list() {
+    struct turbo t0 = {-1, -1, -1};
+
+    turboList = NULL;
+    turboList = (node_tu_t *) malloc(sizeof(node_tu_t));
+    turboList->value = t0;
+    turboList->next = NULL;
+}
+
+void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points) {
     struct player player1;
     player1.id = 1;
     player1.pos = pos->valueint;
     player1.lives = lives->valueint;
     player1.playerX = playerX->valueint;
     strcpy(player1.car_color, carColor->valuestring);
+    player1.points = points->valueint;
     insert_end_p(playerList, player1);
 }
 
 void remove_player(cJSON *carColor) {
     int pos = find_player_pos(playerList, carColor->valuestring);
     remove_at_p(playerList, pos);
-    modify_availability(head, carColor->valuestring, 1);
+    modify_availability(carsList, carColor->valuestring, 1);
 }
 
-void update_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives) {
-    modify_player(playerList, pos->valueint, playerX->valueint, lives->valueint, carColor->valuestring);
+void update_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points) {
+    modify_player(playerList, pos->valueint, playerX->valueint, lives->valueint, carColor->valuestring,
+            points->valueint);
+}
+
+void add_hole(cJSON *id, cJSON *posX, cJSON *posY) {
+    struct hole structhole = {
+            id->valueint,
+            posX->valueint,
+            posY->valueint
+    };
+    insert_end_h(holeList, structhole);
+}
+
+void add_live(cJSON *id, cJSON *posX, cJSON *posY) {
+    struct live structlive = {
+            id->valueint,
+            posX->valueint,
+            posY->valueint
+    };
+    insert_end_l(livesList, structlive);
+}
+
+// funcion para eliminar una vida de la lista, cuando un jugador la obtiene y aumentar sus puntos y su vida
+// @param id: id de la vida
+// @param car_color: color del carro del jugador que obtuvo la vida
+void remove_live(cJSON *id, cJSON *car_color) {
+    int pos = find_live_pos(livesList, id->valueint);
+    remove_at_l(livesList, pos);
+    increase_points(playerList, car_color->valuestring, 3);
+    increase_live(playerList, car_color->valuestring);
+}
+
+void add_turbo(cJSON *id, cJSON *posX, cJSON *posY) {
+    struct turbo structturbo = {
+            id->valueint,
+            posX->valueint,
+            posY->valueint
+    };
+    insert_end_t(turboList, structturbo);
+}
+
+// funcion para eliminar un turbo de la lista, cuando un jugador lo obtiene y aumentar sus puntos
+void remove_turbo(cJSON *id, cJSON *car_color) {
+    int pos = find_turbo_pos(turboList, id->valueint);
+    remove_at_t(turboList, pos);
+    increase_points(playerList, car_color->valuestring, 2);
+    // TODO aumentar la velocidad a 180 km/h
 }
 
 cJSON *get_available_cars() {
-    node_t * tmp = head;
+    node_t * tmp = carsList;
     cJSON *cars = cJSON_CreateObject();
     cJSON *array_of_cars = cJSON_CreateArray();
     while (tmp != NULL) {
@@ -145,7 +219,7 @@ void set_available_cars(cJSON *carColor) {
     if (cJSON_IsString(carColor) && (carColor->valuestring != NULL)) {
         printf("[Car color] %s.\n", carColor->valuestring);
     }
-    modify_availability(head, carColor->valuestring, 0);
+    modify_availability(carsList, carColor->valuestring, 0);
 }
 
 cJSON *get_players_list() {
@@ -167,34 +241,10 @@ cJSON *get_players_list() {
 }
 
 void prueba() {
-    struct player p1;
-    struct player p2;
-    struct player p3;
-    struct player p4;
-
-    p1.playerX = 0;
-    p1.pos = 0;
-    p1.id = 0;
-    p1.lives = 3;
-    strcpy(p1.car_color, "Rojo");
-
-    p2.playerX = 0;
-    p2.pos = 0;
-    p2.id = 0;
-    p2.lives = 3;
-    strcpy(p2.car_color, "Azul");
-
-    p3.playerX = 0;
-    p3.pos = 0;
-    p3.id = 0;
-    p3.lives = 3;
-    strcpy(p3.car_color, "Morado");
-
-    p4.playerX = 0;
-    p4.pos = 0;
-    p4.id = 0;
-    p4.lives = 3;
-    strcpy(p4.car_color, "Blanco");
+    struct player p1 = {0, 0, 0, 3, "Rojo", 0};
+    struct player p2 = {0, 0, 0, 3, "Azul", 0};
+    struct player p3 = {0, 0, 0, 3, "Morado", 0};
+    struct player p4 = {0, 0, 0, 3, "Blanco", 0};
 
     insert_end_p(playerList, p1);
     insert_end_p(playerList, p2);
@@ -203,12 +253,60 @@ void prueba() {
     printf("\n");
     print_list_p(playerList);
     printf("\n");
-    int pos = find_player_pos(playerList, "Morado");
-    printf("pos to delete %i \n", pos);
-    remove_at_p(playerList, pos);
+    increase_live(playerList, "Rojo");
+    increase_points(playerList, "Rojo", 20);
     print_list_p(playerList);
     printf("\n");
-
+//    struct hole h1 = {0, 20, 30};
+//    struct hole h2 = {1, 50, 40};
+//    struct hole h3 = {2, 40, 60};
+//
+//    struct live l1 = {0, 10, 50};
+//    struct live l2 = {1, 20, 40};
+//    struct live l3 = {2, 30, 30};
+//
+//    struct turbo t1 = {0, 90, 40};
+//    struct turbo t2 = {1, 100, 0};
+//    struct turbo t3 = {2, 30, 20};
+//
+//    insert_end_h(holeList, h1);
+//    insert_end_h(holeList, h2);
+//    insert_end_h(holeList, h3);
+//
+//    insert_end_l(livesList, l1);
+//    insert_end_l(livesList, l2);
+//    insert_end_l(livesList, l3);
+//
+//    insert_end_t(turboList, t1);
+//    insert_end_t(turboList, t2);
+//    insert_end_t(turboList, t3);
+//
+//    printf("\n");
+//    print_list_h(holeList);
+//    printf("\n");
+//    int pos = find_hole_pos(holeList, 1);
+//    printf("pos to delete %i \n", pos);
+//    remove_at_h(holeList, pos);
+//    print_list_h(holeList);
+//    printf("\n");
+//
+//    printf("\n");
+//    print_list_l(livesList);
+//    printf("\n");
+//    int pos1 = find_live_pos(livesList, 2);
+//    printf("pos to delete %i \n", pos1);
+//    remove_at_l(livesList, pos1);
+//    print_list_l(livesList);
+//    printf("\n");
+//
+//    printf("\n");
+//    print_list_t(turboList);
+//    printf("\n");
+//    int pos2 = find_turbo_pos(turboList, 0);
+//    printf("pos to delete %i \n", pos2);
+//    remove_at_t(turboList, pos2);
+//    print_list_t(turboList);
+//    printf("\n");
 
 }
 
@@ -223,9 +321,11 @@ void set_new_player(cJSON *data) {
 }
 
 int start() {
-    server_running= 1;
-    loadCarList(); //Cargar la lista de carros
-    loadPlayerList();
+    load_car_list(); //Cargar la lista de carros
+    load_player_list();
+    load_hole_list();
+    load_lives_list();
+    load_turbo_list();
 //    prueba();
 
     int init_status = init_config();

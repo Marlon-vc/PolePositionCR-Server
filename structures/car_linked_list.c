@@ -4,7 +4,11 @@
 
 #include "car_linked_list.h"
 
-
+/**
+ * Implementación de función para insertar un elemento al final de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @param valor Valor a agregar a la lista
+ */
 void insert_end(node_t * head, struct car valor) {
     node_t *tmp = head;
 
@@ -16,6 +20,11 @@ void insert_end(node_t * head, struct car valor) {
     tmp->next->next = NULL;
 }
 
+/**
+ * Implementación de función para insertar un elemento al inicio de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @param valor Valor a agregar a la lista
+ */
 void insert(node_t * head, struct car valor) {
     node_t * new_node;
     new_node = (node_t *) malloc(sizeof(node_t));
@@ -25,6 +34,11 @@ void insert(node_t * head, struct car valor) {
     head->next = new_node;
 }
 
+/**
+ * Implementación de función eliminar el primer elemento de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @return Retorna el color del carro eliminado
+ */
 char * remove_first(node_t * head) {
     char retVal[80] = "";
     node_t * nextNode = NULL;
@@ -40,6 +54,11 @@ char * remove_first(node_t * head) {
     return retVal;
 }
 
+/**
+ * Implementación de función para eliminar el último elemento de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @return Retorna el color del carro eliminado
+ */
 char * remove_last(node_t * head) {
     char retVal[80] = "";
     node_t * tmp = head;
@@ -53,6 +72,12 @@ char * remove_last(node_t * head) {
     return retVal;
 }
 
+/**
+ * Implementación de función para eliminar un elemento en cierta posición
+ * @param head Puntero al primer elemento de la lista
+ * @param n Índice del elemento a eliminar
+ * @return Retorna el color del carro eliminado
+ */
 char * remove_at(node_t * head, int n) {
     int i = 0;
     char retVal[80] = "";
@@ -75,6 +100,12 @@ char * remove_at(node_t * head, int n) {
     return retVal;
 }
 
+/**
+ * Implementación para modificar la disponibilidad de un auto
+ * @param head Puntero al primer elemento de la lista
+ * @param carColor Color del carro del elemento a modificar
+ * @param newAvailability Nueva disponibilidad del auto
+ */
 void modify_availability(node_t * head, char * carColor, int newAvailability) {
     node_t * tmp = head;
     while (tmp != NULL) {
@@ -86,6 +117,10 @@ void modify_availability(node_t * head, char * carColor, int newAvailability) {
     }
 }
 
+/**
+ * Implementación de la función para imprimir la lista
+ * @param head Puntero al primer elemento de la lista
+ */
 void print_list(node_t * head) {
     node_t * tmp = head;
     tmp= tmp->next;

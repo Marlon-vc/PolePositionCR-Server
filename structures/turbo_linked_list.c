@@ -4,6 +4,11 @@
 
 #include "turbo_linked_list.h"
 
+/**
+ * Implementación de función para insertar un elemento al final de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @param value Valor a agregar a la lista
+ */
 void insert_end_t(node_tu_t * head, struct turbo value) {
     node_tu_t * tmp = head;
     while (tmp->next != NULL) {
@@ -14,6 +19,11 @@ void insert_end_t(node_tu_t * head, struct turbo value) {
     tmp->next->next = NULL;
 }
 
+/**
+ * Implementación de función eliminar el primer elemento de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @return Retorna el identificador del elemento eliminado
+ */
 int remove_first_t(node_tu_t * head) {
     int retVal;
     node_tu_t * nextNode = NULL;
@@ -29,6 +39,12 @@ int remove_first_t(node_tu_t * head) {
     return retVal;
 }
 
+/**
+ * Implementación de función para eliminar un elemento en cierta posición
+ * @param head Puntero al primer elemento de la lista
+ * @param n Índice del elemento a eliminar
+ * @return Retorna el identificador del elemento eliminado
+ */
 int remove_at_t(node_tu_t * head, int n) {
     int i = 0;
     int retVal;
@@ -51,6 +67,13 @@ int remove_at_t(node_tu_t * head, int n) {
     return retVal;
 }
 
+/**
+ * Implementación de función para modificar los valores de un turbo
+ * @param head Puntero al primer elemento de la lista
+ * @param posX Posición en el eje X del turbo
+ * @param posY Posición en el eje Y del turbo
+ * @param id Identificador del turbo a modificar
+ */
 void modify_turbo(node_tu_t * head, int posX, int posY, int id) {
     node_tu_t * tmp = head;
     while (tmp != NULL) {
@@ -63,6 +86,12 @@ void modify_turbo(node_tu_t * head, int posX, int posY, int id) {
     }
 }
 
+/**
+ * Implementación de función para buscar la posición de un elemento de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @param id Identificador del elemento a buscar
+ * @return Retorna la posición del elemento
+ */
 int find_turbo_pos(node_tu_t * head, int id) {
     int pos = 0;
     node_tu_t *tmp = head;
@@ -76,6 +105,10 @@ int find_turbo_pos(node_tu_t * head, int id) {
     return -1;
 }
 
+/**
+ * Implementación de la función para imprimir la lista
+ * @param head Puntero al primer elemento de la lista
+ */
 void print_list_t(node_tu_t * head) {
     node_tu_t * tmp = head;
     tmp= tmp->next;

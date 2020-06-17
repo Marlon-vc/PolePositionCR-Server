@@ -1,7 +1,10 @@
 #include "server.h"
 #include "../constants.h"
 
-
+/**
+ * TODO documentar
+ * @return
+ */
 int init_config() {
     int opt = 1;
 
@@ -45,6 +48,13 @@ int init_config() {
     return 0;
 }
 
+/**
+ * todo docuemntar
+ * @param intensity
+ * @param from
+ * @param to
+ * @return
+ */
 cJSON *make_curve(double intensity, int from, int to) {
     cJSON *curve = cJSON_CreateObject();
     cJSON_AddNumberToObject(curve, "intensity", intensity);
@@ -54,6 +64,10 @@ cJSON *make_curve(double intensity, int from, int to) {
     return curve;
 }
 
+/**
+ * todo docuemntar
+ * @return
+ */
 cJSON *create_track() {
     cJSON *track = cJSON_CreateObject();
     cJSON_AddNumberToObject(track, "length", TRACK_LENGTH);
@@ -70,6 +84,9 @@ cJSON *create_track() {
     return track;
 }
 
+/**
+ * Implementación de la función para inicializar la lista de carros
+ */
 void load_car_list() {
     strcpy(head_s.color, "");
     head_s.available = -1;
@@ -93,6 +110,9 @@ void load_car_list() {
     insert_end(carsList, white_car);
 }
 
+/**
+ * Implementación de la función para inicializar la lista de jugadores
+ */
 void load_player_list() {
     struct player player0;
     player0.id = -1;
@@ -107,6 +127,9 @@ void load_player_list() {
     playerList->next = NULL;
 }
 
+/**
+ * Implementación de la función para inicializar la lista de vidas
+ */
 void load_lives_list() {
     struct live l0 = {-1, -1, -1};
 
@@ -116,6 +139,9 @@ void load_lives_list() {
     livesList->next = NULL;
 }
 
+/**
+ * Implementación de la función para inicializar la lista de huecos
+ */
 void load_hole_list() {
     struct hole h0 = {-1, -1, -1};
 
@@ -125,6 +151,9 @@ void load_hole_list() {
     holeList->next = NULL;
 }
 
+/**
+ * Implementación de la función para inicializar la lista de turbos
+ */
 void load_turbo_list() {
     struct turbo t0 = {-1, -1, -1};
 
@@ -134,6 +163,14 @@ void load_turbo_list() {
     turboList->next = NULL;
 }
 
+/**
+ * Implementación de la función para agregar un jugador a la lista de jugadores
+ * @param pos Posición del jugador a lo largo de la pista
+ * @param playerX Posición del jugador en el eje X
+ * @param carColor Color del carro que utiliza el jugador
+ * @param lives Vidas iniciales del jugador
+ * @param points Puntos iniciales del jugador
+ */
 void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points) {
     struct player player1;
     player1.id = 1;
@@ -145,17 +182,51 @@ void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON
     insert_end_p(playerList, player1);
 }
 
+/**
+ * Implementación de la función para obtener los datos del JSON
+ * @param data Datos que vienen del cliente sobre el nuevo jugador
+ */
+void set_new_player(cJSON *data) {
+    cJSON *pos = cJSON_GetObjectItemCaseSensitive(data, "pos");
+    cJSON *playerX= cJSON_GetObjectItemCaseSensitive(data, "playerX");
+    cJSON *carColor= cJSON_GetObjectItemCaseSensitive(data, "carColor");
+    cJSON *lives= cJSON_GetObjectItemCaseSensitive(data, "lives");
+    cJSON *points = cJSON_GetObjectItemCaseSensitive(data, "points");
+    add_player(pos, playerX, carColor, lives, points);
+    print_list_p(playerList);
+    printf("\n");
+}
+
+/**
+ * Implementación de la función para eliminar un jugador de la lista y poner el
+ * carro disponible
+ * @param carColor Color del carro del jugador a eliminar
+ */
 void remove_player(cJSON *carColor) {
     int pos = find_player_pos(playerList, carColor->valuestring);
     remove_at_p(playerList, pos);
     modify_availability(carsList, carColor->valuestring, 1);
 }
 
+/**
+ * Implementación de la función para actualizar los datos de un jugador
+ * @param pos Nueva posición del jugador en la pista
+ * @param playerX Nueva posición del jugador en el eje X
+ * @param carColor Color del carro del jugador a actualizar
+ * @param lives Vidas a aumentar del jugador
+ * @param points Puntos a aumentar del jugador //TODO actualizar metodo
+ */
 void update_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points) {
     modify_player(playerList, pos->valueint, playerX->valueint, lives->valueint, carColor->valuestring,
             points->valueint);
 }
 
+/**
+ * Implementación de la función para agregar un hueco a la lista
+ * @param id Identificador del hueco
+ * @param posX Posición del hueco en X
+ * @param posY Posición del hueco en la pista
+ */
 void add_hole(cJSON *id, cJSON *posX, cJSON *posY) {
     struct hole structhole = {
             id->valueint,
@@ -165,6 +236,12 @@ void add_hole(cJSON *id, cJSON *posX, cJSON *posY) {
     insert_end_h(holeList, structhole);
 }
 
+/**
+ * Implementación de función para agregar una nueva vida a la lista
+ * @param id id Identificador del hueco
+ * @param posX Posición del hueco en X
+ * @param posY Posición del hueco en la pista
+ */
 void add_live(cJSON *id, cJSON *posX, cJSON *posY) {
     struct live structlive = {
             id->valueint,
@@ -174,9 +251,12 @@ void add_live(cJSON *id, cJSON *posX, cJSON *posY) {
     insert_end_l(livesList, structlive);
 }
 
-// funcion para eliminar una vida de la lista, cuando un jugador la obtiene y aumentar sus puntos y su vida
-// @param id: id de la vida
-// @param car_color: color del carro del jugador que obtuvo la vida
+/**
+ * Implementación de función para eliminar una vida de la lista y agregarle una vida al jugador,
+ * así como aumentar sus puntos
+ * @param id Identificador de la vida a eliminar
+ * @param car_color Color del carro del jugador que va a utilizar la vida
+ */
 void remove_live(cJSON *id, cJSON *car_color) {
     int pos = find_live_pos(livesList, id->valueint);
     remove_at_l(livesList, pos);
@@ -184,6 +264,12 @@ void remove_live(cJSON *id, cJSON *car_color) {
     increase_live(playerList, car_color->valuestring);
 }
 
+/**
+ * Implementación de función para agregar un nuevo turbo a la lista
+ * @param id id Identificador del turbo
+ * @param posX Posición del turbo en X
+ * @param posY Posición del turbo en la pista
+ */
 void add_turbo(cJSON *id, cJSON *posX, cJSON *posY) {
     struct turbo structturbo = {
             id->valueint,
@@ -193,7 +279,12 @@ void add_turbo(cJSON *id, cJSON *posX, cJSON *posY) {
     insert_end_t(turboList, structturbo);
 }
 
-// funcion para eliminar un turbo de la lista, cuando un jugador lo obtiene y aumentar sus puntos
+/**
+ * Implementación de función para eliminar un turbo de la lista y aumentar la velocidad del jugador,
+ * así como sus puntos
+ * @param id Identificador del turbo
+ * @param car_color Color del carro del jugador que tomó el turbo
+ */
 void remove_turbo(cJSON *id, cJSON *car_color) {
     int pos = find_turbo_pos(turboList, id->valueint);
     remove_at_t(turboList, pos);
@@ -201,6 +292,10 @@ void remove_turbo(cJSON *id, cJSON *car_color) {
     // TODO aumentar la velocidad a 180 km/h
 }
 
+/**
+ * Implementación de función para obtener una lista con los carros disponibles
+ * @return Retorna un JSON con los carros disponibles
+ */
 cJSON *get_available_cars() {
     node_t * tmp = carsList;
     cJSON *cars = cJSON_CreateObject();
@@ -215,6 +310,10 @@ cJSON *get_available_cars() {
     return cars;
 }
 
+/**
+ * Implementación de función que coloca un carro como no disponible
+ * @param carColor Color del carro al que se le va a cambiar la disponibilidad
+ */
 void set_available_cars(cJSON *carColor) {
     if (cJSON_IsString(carColor) && (carColor->valuestring != NULL)) {
         printf("[Car color] %s.\n", carColor->valuestring);
@@ -222,6 +321,10 @@ void set_available_cars(cJSON *carColor) {
     modify_availability(carsList, carColor->valuestring, 0);
 }
 
+/**
+ * Implementación de función para obtener una lista con los jugadores actuales
+ * @return Retorna un JSON con los jugadores actuales
+ */
 cJSON *get_players_list() {
     node_p_t *tmp = playerList;
     tmp = tmp->next;
@@ -310,17 +413,10 @@ void prueba() {
 
 }
 
-void set_new_player(cJSON *data) {
-    cJSON *pos = cJSON_GetObjectItemCaseSensitive(data, "pos");
-    cJSON *playerX= cJSON_GetObjectItemCaseSensitive(data, "playerX");
-    cJSON *carColor= cJSON_GetObjectItemCaseSensitive(data, "carColor");
-    cJSON *lives= cJSON_GetObjectItemCaseSensitive(data, "lives");
-    cJSON *points = cJSON_GetObjectItemCaseSensitive(data, "points");
-    add_player(pos, playerX, carColor, lives, points);
-    print_list_p(playerList);
-    printf("\n");
-}
-
+/**
+ * TODO documentar
+ * @return
+ */
 int start() {
     server_running = 1;
     load_car_list(); //Cargar la lista de carros

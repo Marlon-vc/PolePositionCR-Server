@@ -315,12 +315,14 @@ void set_new_player(cJSON *data) {
     cJSON *playerX= cJSON_GetObjectItemCaseSensitive(data, "playerX");
     cJSON *carColor= cJSON_GetObjectItemCaseSensitive(data, "carColor");
     cJSON *lives= cJSON_GetObjectItemCaseSensitive(data, "lives");
-    add_player(pos, playerX, carColor, lives);
+    cJSON *points = cJSON_GetObjectItemCaseSensitive(data, "points");
+    add_player(pos, playerX, carColor, lives, points);
     print_list_p(playerList);
     printf("\n");
 }
 
 int start() {
+    server_running = 1;
     load_car_list(); //Cargar la lista de carros
     load_player_list();
     load_hole_list();

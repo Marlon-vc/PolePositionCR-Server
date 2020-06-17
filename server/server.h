@@ -62,6 +62,8 @@ int init_config();
 
 cJSON *create_track();
 
+void set_new_player(cJSON *data);
+
 int start();
 
 void prueba();

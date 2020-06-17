@@ -383,9 +383,14 @@ int start() {
             //TODO: actualizar el estado de los jugadores en los demás clientes.
             cJSON_AddStringToObject(response, "status", "success");
 
-        } else if (strcmp(action->valuestring, "update_state") == 0) {
-            printf("[Info] Requesting state update.\n");
-            //TODO: actualizar estado?
+        } else if (strcmp(action->valuestring, "update_player") == 0) {
+            printf("[Info] Requesting player state update.\n");
+            cJSON *pos = cJSON_GetObjectItemCaseSensitive(json, "pos");
+            cJSON *playerX = cJSON_GetObjectItemCaseSensitive(json, "playerX");
+            cJSON *carColor = cJSON_GetObjectItemCaseSensitive(json, "carColor");
+            cJSON *lives = cJSON_GetObjectItemCaseSensitive(json, "lives");
+            cJSON *points = cJSON_GetObjectItemCaseSensitive(json, "points");
+            update_player(pos, playerX, carColor, lives, points);
             cJSON_AddStringToObject(response, "status", "success");
 
         } else if (strcmp(action->valuestring, "get_cars") == 0) {
@@ -426,7 +431,7 @@ int start() {
         cJSON_Delete(response);
         cJSON_Delete(json);
         fflush(NULL);
-        buffer[0] = '\0';
+        memset(buffer, 0, sizeof(buffer));
     }
 
     printf("[Info] Shutting down server.\n");

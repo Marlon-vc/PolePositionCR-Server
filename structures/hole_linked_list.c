@@ -4,6 +4,11 @@
 
 #include "hole_linked_list.h"
 
+/**
+ * Implementación de función para insertar un elemento al final de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @param value Valor a agregar a la lista
+ */
 void insert_end_h(node_h_t * head, struct hole value) {
     node_h_t * tmp = head;
     while (tmp->next != NULL) {
@@ -14,6 +19,11 @@ void insert_end_h(node_h_t * head, struct hole value) {
     tmp->next->next = NULL;
 }
 
+/**
+ * Implementación de función eliminar el primer elemento de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @return Retorna el identificador del hueco eliminado
+ */
 int remove_first_h(node_h_t * head) {
     int retVal;
     node_h_t * nextNode = NULL;
@@ -29,6 +39,11 @@ int remove_first_h(node_h_t * head) {
     return retVal;
 }
 
+/**
+ * Implementación de función para eliminar el último elemento de la lista
+ * @param head Puntero al primer elemento de la lista
+ * @return Retorna el identificador del hueco eliminado
+ */
 int remove_at_h(node_h_t * head, int n) {
     int i = 0;
     int retVal;
@@ -51,6 +66,13 @@ int remove_at_h(node_h_t * head, int n) {
     return retVal;
 }
 
+/**
+ * Implementación de la función para modificar la información de un hueco
+ * @param head Puntero al primer elemento de la lista
+ * @param posX Nueva posición del hueco en el eje X
+ * @param posY Nueva posición del hueco en el eje Y
+ * @param id Identificador del hueco a modificar
+ */
 void modify_hole(node_h_t * head, int posX, int posY, int id) {
     node_h_t * tmp = head;
     while (tmp != NULL) {
@@ -63,6 +85,12 @@ void modify_hole(node_h_t * head, int posX, int posY, int id) {
     }
 }
 
+/**
+ * Implementación de función para buscar el índice de un hueco en la lista
+ * @param head Puntero al primer elemento de la lista
+ * @param id Identificador del hueco a buscar
+ * @return Retorna la posición del hueco en la lista
+ */
 int find_hole_pos(node_h_t * head, int id) {
     int pos = 0;
     node_h_t *tmp = head;
@@ -76,6 +104,10 @@ int find_hole_pos(node_h_t * head, int id) {
     return -1;
 }
 
+/**
+ * Implementación de la función para imprimir la lista
+ * @param head Puntero al primer elemento de la lista
+ */
 void print_list_h(node_h_t * head) {
     node_h_t * tmp = head;
     tmp= tmp->next;

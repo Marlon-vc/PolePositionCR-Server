@@ -78,8 +78,8 @@ void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_
         if (strcmp(car_color, tmp->value.car_color) == 0) {
             tmp->value.pos = pos;
             tmp->value.playerX = playerX;
-            tmp->value.lives = lives;
-            tmp->value.points = points;
+            //tmp->value.lives = lives;
+            //tmp->value.points = points;
             break;
         }
         tmp = tmp->next;

@@ -14,6 +14,12 @@
 
 #define SERVER_PORT 8080
 #define TRACK_LENGTH 1800
+#define START 100
+#define MIN_SIDE_RIGHT -1000
+#define MAX_SIDE_LEFT 1000
+#define HOLES 20
+#define LIVE 8
+#define TURBO 10
 #define BUFFER_SIZE 4096
 const cJSON *action = NULL;
 

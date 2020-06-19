@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 #include "../json/cJSON.h"
 #include "../structures/car_linked_list.h"
 #include "../structures/player_linked_list.h"
@@ -60,6 +61,29 @@ void load_hole_list();
 void load_turbo_list();
 
 /**
+ * Definición de la función para crear aleatoriamente los huecos, los turbos y las vidas
+ */
+void create_sprites();
+
+/**
+ * Definición de función para obtener las vidas de la pista
+ * @return JSON Array con las vidas
+ */
+cJSON * get_lives();
+
+/**
+ * Definición de función para obtener los huecos de la pista
+ * @return JSON Array con los huecos
+ */
+cJSON * get_holes();
+
+/**
+ * Definición de función para obtener los turbos de la pista
+ * @return JSON Array con los turbos
+ */
+cJSON * get_turbos();
+
+/**
  * Definición de la función para agregar un jugador a la lista de jugadores
  * @param pos Posición del jugador a lo largo de la pista
  * @param playerX Posición del jugador en el eje X
@@ -67,7 +91,14 @@ void load_turbo_list();
  * @param lives Vidas iniciales del jugador
  * @param points Puntos iniciales del jugador
  */
+
 void add_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points);
+
+/**
+ * Definición del método para colocar las listas de sprites en un Json
+ * @return Json con las listas de sprites
+ */
+cJSON * load_sprites();
 
 /**
  * Definición de la función para obtener los datos del JSON

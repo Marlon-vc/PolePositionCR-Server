@@ -164,6 +164,101 @@ void load_turbo_list() {
 }
 
 /**
+ * Implementación de la función para crear aleatoriamente los huecos, los turbos y las vidas
+ */
+void create_sprites() {
+    srand(time(0));
+
+    // Crear huecos
+
+    for (int i = 0; i < HOLES; i++) {
+        int posX = (rand() % (TRACK_LENGTH - START + 1)) + START;
+        int posY = (rand() % (MAX_SIDE_LEFT + 1 - MIN_SIDE_RIGHT)) + MIN_SIDE_RIGHT;
+        struct hole new_hole = {i, posX, posY};
+        insert_end_h(holeList, new_hole);
+    }
+
+    // Crear vidas
+
+    for (int i = 0; i < LIVE; i++) {
+        int posX = (rand() % (TRACK_LENGTH - START + 1)) + START;
+        int posY = (rand() % (MAX_SIDE_LEFT + 1 - MIN_SIDE_RIGHT)) + MIN_SIDE_RIGHT;
+        struct live new_live = {i, posX, posY};
+        insert_end_l(livesList, new_live);
+    }
+
+    // Crear turbos
+
+    for (int i = 0; i < TURBO; i++) {
+        int posX = (rand() % (TRACK_LENGTH - START + 1)) + START;
+        int posY = (rand() % (MAX_SIDE_LEFT + 1 - MIN_SIDE_RIGHT)) + MIN_SIDE_RIGHT;
+        struct turbo new_turbo = {i, posX, posY};
+        insert_end_t(turboList, new_turbo);
+    }
+}
+
+/**
+ * Implementación de función para obtener las vidas de la pista
+ * @return JSON Array con las vidas
+ */
+cJSON * get_lives() {
+    node_l_t *tmp = livesList;
+    tmp = tmp->next;
+    cJSON *lives = cJSON_CreateArray();
+    while (tmp != NULL) {
+        cJSON *live = cJSON_CreateObject();
+        cJSON_AddNumberToObject(live, "id", tmp->value.id);
+        cJSON_AddNumberToObject(live, "posX", tmp->value.posX);
+        cJSON_AddNumberToObject(live, "posY", tmp->value.posY);
+        cJSON_AddItemToArray(lives, live);
+
+        tmp = tmp->next;
+    }
+    return lives;
+}
+
+/**
+ * Implementación de función para obtener los huecos de la pista
+ * @return JSON Array con los huecos
+ */
+cJSON * get_holes() {
+    node_h_t *tmp = holeList;
+    tmp = tmp->next;
+    cJSON *holes = cJSON_CreateArray();
+    while(tmp != NULL) {
+        cJSON *hole = cJSON_CreateObject();
+        cJSON_AddNumberToObject(hole, "id", tmp->value.id);
+        cJSON_AddNumberToObject(hole, "posX", tmp->value.posX);
+        cJSON_AddNumberToObject(hole, "posY", tmp->value.posY);
+        cJSON_AddItemToArray(holes, hole);
+
+        tmp = tmp->next;
+    }
+    return holes;
+}
+
+/**
+ * Implementación de función para obtener los turbos de la pista
+ * @return JSON Array con los turbos
+ */
+cJSON * get_turbos() {
+    node_tu_t *tmp = turboList;
+    tmp = tmp->next;
+    cJSON *turbos = cJSON_CreateArray();
+    while (tmp != NULL) {
+        cJSON *turbo = cJSON_CreateObject();
+        cJSON_AddNumberToObject(turbo, "id", tmp->value.id);
+        cJSON_AddNumberToObject(turbo, "posX", tmp->value.posX);
+        cJSON_AddNumberToObject(turbo, "posY", tmp->value.posY);
+        cJSON_AddItemToArray(turbos, turbo);
+
+        tmp = tmp->next;
+    }
+    return turbos;
+
+}
+
+/**
  * Implementación de la función para agregar un jugador a la lista de jugadores
  * @param pos Posición del jugador a lo largo de la pista
  * @param playerX Posición del jugador en el eje X
@@ -344,22 +439,22 @@ cJSON *get_players_list() {
 }
 
 void prueba() {
-    struct player p1 = {0, 0, 0, 3, "Rojo", 0};
-    struct player p2 = {0, 0, 0, 3, "Azul", 0};
-    struct player p3 = {0, 0, 0, 3, "Morado", 0};
-    struct player p4 = {0, 0, 0, 3, "Blanco", 0};
-
-    insert_end_p(playerList, p1);
-    insert_end_p(playerList, p2);
-    insert_end_p(playerList, p3);
-    insert_end_p(playerList, p4);
-    printf("\n");
-    print_list_p(playerList);
-    printf("\n");
-    increase_live(playerList, "Rojo");
-    increase_points(playerList, "Rojo", 20);
-    print_list_p(playerList);
-    printf("\n");
+//    struct player p1 = {0, 0, 0, 3, "Rojo", 0};
+//    struct player p2 = {0, 0, 0, 3, "Azul", 0};
+//    struct player p3 = {0, 0, 0, 3, "Morado", 0};
+//    struct player p4 = {0, 0, 0, 3, "Blanco", 0};
+//
+//    insert_end_p(playerList, p1);
+//    insert_end_p(playerList, p2);
+//    insert_end_p(playerList, p3);
+//    insert_end_p(playerList, p4);
+//    printf("\n");
+//    print_list_p(playerList);
+//    printf("\n");
+//    increase_live(playerList, "Rojo");
+//    increase_points(playerList, "Rojo", 20);
+//    print_list_p(playerList);
+//    printf("\n");
 //    struct hole h1 = {0, 20, 30};
 //    struct hole h2 = {1, 50, 40};
 //    struct hole h3 = {2, 40, 60};
@@ -384,9 +479,21 @@ void prueba() {
 //    insert_end_t(turboList, t2);
 //    insert_end_t(turboList, t3);
 //
-//    printf("\n");
-//    print_list_h(holeList);
-//    printf("\n");
+    printf("\n");
+    print_list_h(holeList);
+    printf("\n");
+    print_list_l(livesList);
+    printf("\n");
+    print_list_t(turboList);
+    printf("\n");
+    create_sprites();
+    print_list_h(holeList);
+    printf("\n");
+    print_list_l(livesList);
+    printf("\n");
+    print_list_t(turboList);
+    printf("\n");
+
 //    int pos = find_hole_pos(holeList, 1);
 //    printf("pos to delete %i \n", pos);
 //    remove_at_h(holeList, pos);
@@ -424,6 +531,7 @@ int start() {
     load_hole_list();
     load_lives_list();
     load_turbo_list();
+    create_sprites();
 //    prueba();
 
     int init_status = init_config();
@@ -463,20 +571,16 @@ int start() {
         cJSON *response = cJSON_CreateObject();
 
         //Se verifica la acción a realizar
-        if (strcmp(action->valuestring, "create_game") == 0) {
-            printf("[Info] Requesting game creation.\n");
-            //TODO inicializar juego.
-            cJSON_AddStringToObject(response, "status", "success");
-
-        } else if (strcmp(action->valuestring, "get_track") == 0) {
-            printf("[Info] Requesting track state.\n");
+        if (strcmp(action->valuestring, "get_game_info") == 0) {
+            printf("[Info] Requesting game info state.\n");
             cJSON *track = create_track();
+            cJSON *holes = get_holes();
+            cJSON *lives = get_lives();
+            cJSON *turbos = get_turbos();
             cJSON_AddItemToObject(response, "track", track);
-            cJSON_AddStringToObject(response, "status", "success");
-
-        } else if (strcmp(action->valuestring, "update_game") == 0) {
-            printf("[Info] Requesting game update.\n");
-            //TODO: actualizar el estado de los jugadores en los demás clientes.
+            cJSON_AddItemToObject(response, "holes", holes);
+            cJSON_AddItemToObject(response, "lives", lives);
+            cJSON_AddItemToObject(response, "turbos", turbos);
             cJSON_AddStringToObject(response, "status", "success");
 
         } else if (strcmp(action->valuestring, "update_player") == 0) {
@@ -511,7 +615,6 @@ int start() {
         }else {
             printf("[Warning] Unknown client action request.\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");
-
         }
 
         char *response_string = cJSON_Print(response);
@@ -522,7 +625,6 @@ int start() {
             continue;
 
         }
-
         send(new_socket, response_string, strlen(response_string), 0);
         cJSON_Delete(response);
         cJSON_Delete(json);

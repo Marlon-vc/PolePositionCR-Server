@@ -17,6 +17,7 @@ struct turbo {
     int id;
     int posX;
     int posY;
+    int got;
 };
 
 /**
@@ -56,7 +57,8 @@ int remove_at_t(node_tu_t * head, int n);
  * @param posY Posición en el eje Y del turbo
  * @param id Identificador del turbo a modificar
  */
-void modify_turbo(node_tu_t * head, int posX, int posY, int id);
+void modify_turbo(node_tu_t * head, int id, int got);
+
 
 /**
  * Definición de función para buscar la posición de un elemento de la lista

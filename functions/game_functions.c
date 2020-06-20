@@ -149,7 +149,7 @@ void create_sprites() {
     for (int i = 0; i < TURBO; i++) {
         int posX = (rand() % (TRACK_LENGTH - START + 1)) + START;
         int posY = (rand() % (MAX_SIDE_LEFT + 1 - MIN_SIDE_RIGHT)) + MIN_SIDE_RIGHT;
-        struct turbo new_turbo = {i, posX, posY};
+        struct turbo new_turbo = {i, posX, posY, 0};
         insert_end_t(turboList, new_turbo);
     }
 }
@@ -187,6 +187,7 @@ cJSON * get_turbos() {
         cJSON_AddNumberToObject(turbo, "id", tmp->value.id);
         cJSON_AddNumberToObject(turbo, "posX", tmp->value.posX);
         cJSON_AddNumberToObject(turbo, "posY", tmp->value.posY);
+        cJSON_AddNumberToObject(turbo, "got", tmp->value.got);
         cJSON_AddItemToArray(turbos, turbo);
 
         tmp = tmp->next;
@@ -417,6 +418,21 @@ void get_game_info(cJSON *response) {
     cJSON_AddItemToObject(response, "holes", holes);
     cJSON_AddItemToObject(response, "lives", lives);
     cJSON_AddItemToObject(response, "turbos", turbos);
+}
+
+void update_turbo(cJSON *data) {
+    int turbo_id = cJSON_GetObjectItemCaseSensitive(data, "turbo_id")->valueint;
+    modify_turbo(turboList, turbo_id, 1);
+}
+
+void reset_turbos() {
+    node_tu_t *tmp = turboList;
+    tmp = tmp->next;
+
+    while (tmp != NULL) {
+        tmp->value.got = 0;
+        tmp = tmp->next;
+    }
 }
 
 /**

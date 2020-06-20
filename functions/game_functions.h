@@ -199,6 +199,10 @@ void get_game_info(cJSON *response);
  */
 void update_player_info(cJSON *data);
 
+void update_turbo(cJSON *data);
+
+void reset_turbos();
+
 void prueba();
 
 #endif //POLEPOSITIONCR_SERVER_GAME_FUNCTIONS_H

@@ -74,12 +74,13 @@ int remove_at_t(node_tu_t * head, int n) {
  * @param posY Posición en el eje Y del turbo
  * @param id Identificador del turbo a modificar
  */
-void modify_turbo(node_tu_t * head, int posX, int posY, int id) {
+void modify_turbo(node_tu_t * head, int id, int got) {
     node_tu_t * tmp = head;
     while (tmp != NULL) {
         if (tmp->value.id == id) {
-            tmp->value.posX = posX;
-            tmp->value.posY = posY;
+//            tmp->value.posX = posX;
+//            tmp->value.posY = posY;
+            tmp->value.got = got;
             break;
         }
         tmp = tmp->next;

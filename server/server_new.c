@@ -104,6 +104,14 @@ int start() {
             update_player_info(json);
             cJSON_AddStringToObject(response, "status", "success");
 
+        } else if (strcmp(action->valuestring, "update_turbos") == 0) {
+            cJSON_AddItemToObject(response, "turbos", get_turbos());
+            cJSON_AddStringToObject(response, "status", "success");
+
+        } else if (strcmp(action->valuestring, "update_turbo") == 0) {
+            update_turbo(json);
+            cJSON_AddStringToObject(response, "status", "success");
+
         } else if (strcmp(action->valuestring, "get_cars") == 0) {
             cJSON_AddItemToObject(response, "cars", get_available_cars());
             cJSON_AddStringToObject(response, "status", "success");
@@ -120,6 +128,10 @@ int start() {
         }else if (strcmp(action->valuestring, "get_players") == 0) {
             printf("[Info] Requesting players list.\n");
             cJSON_AddItemToObject(response, "players", get_players_list());
+            cJSON_AddStringToObject(response, "status", "success");
+
+        } else if (strcmp(action->valuestring, "reset_turbos") == 0) {
+            reset_turbos();
             cJSON_AddStringToObject(response, "status", "success");
 
         } else if (strcmp(action->valuestring, "exit") == 0) {

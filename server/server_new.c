@@ -61,6 +61,7 @@ int start() {
     load_hole_list();
     load_lives_list();
     load_turbo_list();
+    create_sprites();
 
     char buffer[BUFFER_SIZE] = {0};
 

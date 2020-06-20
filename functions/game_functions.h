@@ -114,10 +114,16 @@ void remove_player(cJSON *carColor);
  * @param pos Nueva posición del jugador en la pista
  * @param playerX Nueva posición del jugador en el eje X
  * @param carColor Color del carro del jugador a actualizar
- * @param lives Vidas a aumentar del jugador
- * @param points Puntos a aumentar del jugador //TODO actualizar metodo
+ * @param lives Vidas actuales del jugador
+ * @param points Puntos actuales del jugador
  */
 void update_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points);
+
+/**
+ * Definicion de la funcion para obtener las vidas del jugador actual
+ * @param car_color
+ */
+int get_player_lives(cJSON *car_color);
 
 /**
  * Definición de función para agregar un hueco a la lista
@@ -193,5 +199,6 @@ void get_game_info(cJSON *response);
  */
 void update_player_info(cJSON *data);
 
+void prueba();
 
 #endif //POLEPOSITIONCR_SERVER_GAME_FUNCTIONS_H

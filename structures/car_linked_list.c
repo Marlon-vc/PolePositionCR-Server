@@ -40,7 +40,7 @@ void insert(node_t * head, struct car valor) {
  * @return Retorna el color del carro eliminado
  */
 char * remove_first(node_t * head) {
-    char retVal[80] = "";
+    static char retVal[80] = "";
     node_t * nextNode = NULL;
 
     if (head == NULL)
@@ -60,7 +60,7 @@ char * remove_first(node_t * head) {
  * @return Retorna el color del carro eliminado
  */
 char * remove_last(node_t * head) {
-    char retVal[80] = "";
+    static char retVal[80] = "";
     node_t * tmp = head;
     while (tmp->next->next != NULL) {
         tmp = tmp->next;
@@ -80,7 +80,7 @@ char * remove_last(node_t * head) {
  */
 char * remove_at(node_t * head, int n) {
     int i = 0;
-    char retVal[80] = "";
+    static char retVal[80] = "";
     node_t * current = head;
     node_t * tmp = NULL;
 

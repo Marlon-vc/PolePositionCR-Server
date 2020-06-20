@@ -122,6 +122,15 @@ int start() {
             cJSON_AddItemToObject(response, "players", get_players_list());
             cJSON_AddStringToObject(response, "status", "success");
 
+        } else if (strcmp(action->valuestring, "exit") == 0) {
+            printf("[Info] Exit.\n");
+            cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
+            remove_player(color);
+        } else if (strcmp(action->valuestring, "get_lives") == 0) {
+            printf("[Info] Requesting actual player lives");
+            cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
+            cJSON_AddNumberToObject(response, "lives", get_player_lives(color));
+
         }else {
             perror("[Warning] Unknown client action request\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");

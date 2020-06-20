@@ -71,9 +71,9 @@ int remove_at_p(node_p_t * head, int n);
  * @param head Puntero al primer elemento de la lista
  * @param pos Nueva posición del jugador en la pista
  * @param playerX Nueva posición del jugador en el eje X
- * @param lives Vidas a aumentar del jugador
+ * @param lives Vidas a aumentar del jugador, positivo si de desea aumentar, negativo si se desea disminuir
  * @param car_color Color del carro del jugador a modificar
- * @param points Puntos a aumentar del jugador //TODO actualizar metodo para que los actualice
+ * @param points Puntos a aumentar del jugador, positivo si de desea aumentar, negativo si se desea disminuir
  */
 void modify_player(node_p_t * head, int pos, int playerX, int lives, char * car_color, int points);
 
@@ -99,6 +99,14 @@ void increase_points(node_p_t * head, char * car_color, int points);
  * @param car_color Color del carro del jugador a aumentar la vida
  */
 void increase_live(node_p_t * head, char * car_color);
+
+/**
+ * Definicion de funcion para obtener las vidas de un jugador
+ * @param head
+ * @param car_color
+ * @return
+ */
+int get_player_live (node_p_t * head, char * car_color);
 
 /**
  * Definición de la función para imprimir la lista

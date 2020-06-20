@@ -265,12 +265,20 @@ void remove_player(cJSON *carColor) {
  * @param pos Nueva posición del jugador en la pista
  * @param playerX Nueva posición del jugador en el eje X
  * @param carColor Color del carro del jugador a actualizar
- * @param lives Vidas a aumentar del jugador
- * @param points Puntos a aumentar del jugador //TODO actualizar metodo
+ * @param lives Vidas del jugador
+ * @param points Puntos del jugador
  */
 void update_player(cJSON *pos, cJSON *playerX, cJSON *carColor, cJSON *lives, cJSON *points) {
     modify_player(playerList, pos->valueint, playerX->valueint, lives->valueint, carColor->valuestring,
                   points->valueint);
+}
+
+/**
+ * Definicion de la funcion para obtener las vidas del jugador actual
+ * @param car_color
+ */
+int get_player_lives(cJSON *car_color) {
+    return get_player_live(playerList, car_color->valuestring);
 }
 
 /**
@@ -423,4 +431,93 @@ void update_player_info(cJSON *data) {
     cJSON *points = cJSON_GetObjectItemCaseSensitive(data, "points");
 
     update_player(pos, playerX, carColor, lives, points);
+}
+
+void prueba() {
+    struct player p1 = {0, 0, 0, 3, "Rojo", 0};
+    struct player p2 = {0, 0, 0, 3, "Azul", 0};
+    struct player p3 = {0, 0, 0, 3, "Morado", 0};
+    struct player p4 = {0, 0, 0, 3, "Blanco", 0};
+//
+    insert_end_p(playerList, p1);
+    insert_end_p(playerList, p2);
+    insert_end_p(playerList, p3);
+    insert_end_p(playerList, p4);
+    printf("\n");
+    print_list_p(playerList);
+
+    modify_player(playerList, 1, 2, -1, "Rojo", 9);
+    printf("\n");
+    print_list_p(playerList);
+    modify_player(playerList, 1, 2, -4, "Rojo", -10);
+    printf("\n");
+    print_list_p(playerList);
+//    printf("\n");
+//    increase_live(playerList, "Rojo");
+//    increase_points(playerList, "Rojo", 20);
+//    print_list_p(playerList);
+//    printf("\n");
+//    struct hole h1 = {0, 20, 30};
+//    struct hole h2 = {1, 50, 40};
+//    struct hole h3 = {2, 40, 60};
+//
+//    struct live l1 = {0, 10, 50};
+//    struct live l2 = {1, 20, 40};
+//    struct live l3 = {2, 30, 30};
+//
+//    struct turbo t1 = {0, 90, 40};
+//    struct turbo t2 = {1, 100, 0};
+//    struct turbo t3 = {2, 30, 20};
+//
+//    insert_end_h(holeList, h1);
+//    insert_end_h(holeList, h2);
+//    insert_end_h(holeList, h3);
+//
+//    insert_end_l(livesList, l1);
+//    insert_end_l(livesList, l2);
+//    insert_end_l(livesList, l3);
+//
+//    insert_end_t(turboList, t1);
+//    insert_end_t(turboList, t2);
+//    insert_end_t(turboList, t3);
+////
+//    printf("\n");
+//    print_list_h(holeList);
+//    printf("\n");
+//    print_list_l(livesList);
+//    printf("\n");
+//    print_list_t(turboList);
+//    printf("\n");
+//    create_sprites();
+//    print_list_h(holeList);
+//    printf("\n");
+//    print_list_l(livesList);
+//    printf("\n");
+//    print_list_t(turboList);
+//    printf("\n");
+
+//    int pos = find_hole_pos(holeList, 1);
+//    printf("pos to delete %i \n", pos);
+//    remove_at_h(holeList, pos);
+//    print_list_h(holeList);
+//    printf("\n");
+//
+//    printf("\n");
+//    print_list_l(livesList);
+//    printf("\n");
+//    int pos1 = find_live_pos(livesList, 2);
+//    printf("pos to delete %i \n", pos1);
+//    remove_at_l(livesList, pos1);
+//    print_list_l(livesList);
+//    printf("\n");
+//
+//    printf("\n");
+//    print_list_t(turboList);
+//    printf("\n");
+//    int pos2 = find_turbo_pos(turboList, 0);
+//    printf("pos to delete %i \n", pos2);
+//    remove_at_t(turboList, pos2);
+//    print_list_t(turboList);
+//    printf("\n");
+
 }

@@ -57,7 +57,7 @@ int remove_at_l(node_l_t * head, int n);
  * @param posY Nueva posición de la vida en el eje Y
  * @param id Identificador de la vida a modificar
  */
-void modify_live(node_l_t * head, int posX, int posY, int id);
+void modify_live(node_l_t * head, int id, int taken);
 
 /**
  * Definición de función para buscar el índice de una vida en la lista

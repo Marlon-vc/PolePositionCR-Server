@@ -74,12 +74,11 @@ int remove_at_l(node_l_t * head, int n) {
  * @param posY Nueva posición de la vida en el eje Y
  * @param id Identificador de la vida a modificar
  */
-void modify_live(node_l_t * head, int posX, int posY, int id) {
+void modify_live(node_l_t * head, int id, int taken) {
     node_l_t * tmp = head;
     while (tmp != NULL) {
         if (tmp->value.id == id) {
-            tmp->value.posX = posX;
-            tmp->value.posY = posY;
+            tmp->value.taken = taken;
             break;
         }
         tmp = tmp->next;

@@ -104,7 +104,7 @@ int start() {
             update_player_info(json);
             cJSON_AddStringToObject(response, "status", "success");
 
-        } else if (strcmp(action->valuestring, "update_turbos") == 0) {
+        } else if (strcmp(action->valuestring, "get_turbos") == 0) {
             cJSON_AddItemToObject(response, "turbos", get_turbos());
             cJSON_AddStringToObject(response, "status", "success");
 
@@ -112,7 +112,15 @@ int start() {
             update_turbo(json);
             cJSON_AddStringToObject(response, "status", "success");
 
-        } else if (strcmp(action->valuestring, "get_cars") == 0) {
+        } else if (strcmp(action->valuestring, "get_lives") == 0) {
+            cJSON_AddItemToObject(response, "lives", get_lives());
+            cJSON_AddStringToObject(response, "status", "success");
+
+        } else if (strcmp(action->valuestring, "update_turbo") == 0) {
+            update_live(json);
+            cJSON_AddStringToObject(response, "status", "success");
+
+        }else if (strcmp(action->valuestring, "get_cars") == 0) {
             cJSON_AddItemToObject(response, "cars", get_available_cars());
             cJSON_AddStringToObject(response, "status", "success");
 

@@ -80,7 +80,7 @@ void modify_turbo(node_tu_t * head, int id, int got) {
         if (tmp->value.id == id) {
 //            tmp->value.posX = posX;
 //            tmp->value.posY = posY;
-            tmp->value.got = got;
+            tmp->value.taken = got;
             break;
         }
         tmp = tmp->next;

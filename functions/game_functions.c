@@ -427,12 +427,17 @@ void update_turbo(cJSON *data) {
     modify_turbo(turboList, turbo_id, 1);
 }
 
+void update_live(cJSON *data) {
+    int live_id = cJSON_GetObjectItemCaseSensitive(data, "turbo_id")->valueint;
+    modify_live(livesList, live_id, 1);
+}
+
 void reset_turbos() {
     node_tu_t *tmp = turboList;
     tmp = tmp->next;
 
     while (tmp != NULL) {
-        tmp->value.got = 0;
+        tmp->value.taken = 0;
         tmp = tmp->next;
     }
 }

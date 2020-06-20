@@ -1,7 +1,8 @@
-#include "server/server.h"
+//#include "server/server.h"
+#include "server/server_new.h"
+
+#pragma comment(lib, "ws2_32.lib")
 
 int main() {
-    //Start server and return server exit code
-    printf("Starting server\n");
     return start();
 }

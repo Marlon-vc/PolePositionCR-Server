@@ -537,3 +537,12 @@ void prueba() {
 //    printf("\n");
 
 }
+
+/**
+ *
+ * @param color
+ * @return
+ */
+int get_player_points(cJSON *color) {
+    return get_points_p(playerList, color->string);
+}

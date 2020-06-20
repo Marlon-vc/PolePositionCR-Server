@@ -191,6 +191,25 @@ int get_player_live (node_p_t * head, char * car_color) {
 }
 
 /**
+ *
+ * @param head
+ * @param car_color
+ * @return
+ */
+int get_points_p(node_p_t * head, char * car_color) {
+    node_p_t *tmp = head;
+    tmp = tmp->next;
+
+    while (tmp != NULL) {
+        if (strcmp(tmp->value.car_color, car_color) == 0) {
+            return tmp->value.points;
+        }
+        tmp = tmp->next;
+    }
+    return -1;
+}
+
+/**
  * Implementación de la función para imprimir la lista
  * @param head Puntero al primer elemento de la lista
  */

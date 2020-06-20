@@ -143,6 +143,10 @@ int start() {
             cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
             cJSON_AddNumberToObject(response, "lives", get_player_lives(color));
 
+        }else if ((strcmp(action->valuestring, "get_points") == 0)) {
+            printf("[Info] Requesting actual player points");
+            cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
+            cJSON_AddNumberToObject(response, "points", get_player_points(color));
         }else {
             perror("[Warning] Unknown client action request\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");

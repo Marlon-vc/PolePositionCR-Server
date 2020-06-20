@@ -203,6 +203,13 @@ void update_turbo(cJSON *data);
 
 void reset_turbos();
 
+/**
+ *
+ * @param color
+ * @return
+ */
+int get_player_points(cJSON *color);
+
 void prueba();
 
 #endif //POLEPOSITIONCR_SERVER_GAME_FUNCTIONS_H

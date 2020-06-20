@@ -114,4 +114,12 @@ int get_player_live (node_p_t * head, char * car_color);
  */
 void print_list_p(node_p_t * head);
 
+/**
+ *
+ * @param head
+ * @param car_color
+ * @return
+ */
+int get_points_p(node_p_t * head, char * car_color);
+
 #endif //POLEPOSITIONCR_SERVER_PLAYER_LINKED_LIST_H

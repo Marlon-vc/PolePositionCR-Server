@@ -17,7 +17,7 @@ struct turbo {
     int id;
     int posX;
     int posY;
-    int got;
+    int taken;
 };
 
 /**

@@ -90,7 +90,7 @@ void load_player_list() {
  * Implementación de la función para inicializar la lista de vidas
  */
 void load_lives_list() {
-    struct live l0 = {-1, -1, -1};
+    struct live l0 = {-1, -1, -1, -1};
 
     livesList = NULL;
     livesList = (node_l_t *) malloc(sizeof(node_l_t));
@@ -114,7 +114,7 @@ void load_hole_list() {
  * Implementación de la función para inicializar la lista de turbos
  */
 void load_turbo_list() {
-    struct turbo t0 = {-1, -1, -1};
+    struct turbo t0 = {-1, -1, -1, -1};
 
     turboList = NULL;
     turboList = (node_tu_t *) malloc(sizeof(node_tu_t));
@@ -140,7 +140,7 @@ void create_sprites() {
     for (int i = 0; i < LIVE; i++) {
         int posX = (rand() % (TRACK_LENGTH - START + 1)) + START;
         int posY = (rand() % (MAX_SIDE_LEFT + 1 - MIN_SIDE_RIGHT)) + MIN_SIDE_RIGHT;
-        struct live new_live = {i, posX, posY};
+        struct live new_live = {i, posX, posY, 0};
         insert_end_l(livesList, new_live);
     }
 
@@ -167,6 +167,7 @@ cJSON * get_lives() {
         cJSON_AddNumberToObject(live, "id", tmp->value.id);
         cJSON_AddNumberToObject(live, "posX", tmp->value.posX);
         cJSON_AddNumberToObject(live, "posY", tmp->value.posY);
+        cJSON_AddNumberToObject(live, "taken", tmp->value.taken);
         cJSON_AddItemToArray(lives, live);
 
         tmp = tmp->next;
@@ -187,7 +188,7 @@ cJSON * get_turbos() {
         cJSON_AddNumberToObject(turbo, "id", tmp->value.id);
         cJSON_AddNumberToObject(turbo, "posX", tmp->value.posX);
         cJSON_AddNumberToObject(turbo, "posY", tmp->value.posY);
-        cJSON_AddNumberToObject(turbo, "got", tmp->value.got);
+        cJSON_AddNumberToObject(turbo, "taken", tmp->value.taken);
         cJSON_AddItemToArray(turbos, turbo);
 
         tmp = tmp->next;
@@ -303,11 +304,12 @@ void add_hole(cJSON *id, cJSON *posX, cJSON *posY) {
  * @param posX Posición del hueco en X
  * @param posY Posición del hueco en la pista
  */
-void add_live(cJSON *id, cJSON *posX, cJSON *posY) {
+void add_live(cJSON *id, cJSON *posX, cJSON *posY, cJSON *taken) {
     struct live structlive = {
             id->valueint,
             posX->valueint,
-            posY->valueint
+            posY->valueint,
+            taken->valueint
     };
     insert_end_l(livesList, structlive);
 }

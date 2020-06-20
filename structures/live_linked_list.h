@@ -17,6 +17,7 @@ struct live {
     int id;
     int posX;
     int posY;
+    int taken;
 };
 
 /**

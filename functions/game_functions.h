@@ -139,7 +139,7 @@ void add_hole(cJSON *id, cJSON *posX, cJSON *posY);
  * @param posX Posición del hueco en X
  * @param posY Posición del hueco en la pista
  */
-void add_live(cJSON *id, cJSON *posX, cJSON *posY);
+void add_live(cJSON *id, cJSON *posX, cJSON *posY, cJSON *taken);
 
 /**
  * Definición de función para eliminar una vida de la lista y agregarle una vida al jugador

@@ -14,6 +14,7 @@ SOCKET server_socket, client_socket;
 struct sockaddr_in server_address, client_address;
 
 int server_running;
+int game_finished;
 
 int start();
 int init_config();

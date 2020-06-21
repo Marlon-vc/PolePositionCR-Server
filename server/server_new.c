@@ -49,6 +49,7 @@ int init_config() {
 
 int start() {
     server_running= 1;
+    game_finished = 0;
 
     int init_status = init_config();
     if (init_status < 0) {
@@ -116,11 +117,15 @@ int start() {
             cJSON_AddItemToObject(response, "lives", get_lives());
             cJSON_AddStringToObject(response, "status", "success");
 
-        } else if (strcmp(action->valuestring, "update_turbo") == 0) {
+        } else if (strcmp(action->valuestring, "update_live") == 0) {
             update_live(json);
             cJSON_AddStringToObject(response, "status", "success");
 
-        }else if (strcmp(action->valuestring, "get_cars") == 0) {
+        } else if (strcmp(action->valuestring, "reset_lives") == 0) {
+            reset_lives();
+            cJSON_AddStringToObject(response, "status", "success");
+
+        } else if (strcmp(action->valuestring, "get_cars") == 0) {
             cJSON_AddItemToObject(response, "cars", get_available_cars());
             cJSON_AddStringToObject(response, "status", "success");
 
@@ -146,7 +151,7 @@ int start() {
             printf("[Info] Exit.\n");
             cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
             remove_player(color);
-        } else if (strcmp(action->valuestring, "get_lives") == 0) {
+        } else if (strcmp(action->valuestring, "get_player_lives") == 0) {
             printf("[Info] Requesting actual player lives");
             cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
             cJSON_AddNumberToObject(response, "lives", get_player_lives(color));
@@ -155,7 +160,16 @@ int start() {
             printf("[Info] Requesting actual player points");
             cJSON *color = cJSON_GetObjectItemCaseSensitive(json, "car_color");
             cJSON_AddNumberToObject(response, "points", get_player_points(color));
-        }else {
+
+        } else if (strcmp(action->valuestring, "finish_game") == 0) {
+            game_finished = 1;
+            cJSON_AddStringToObject(response, "status", "success");
+
+        } else if (strcmp(action->valuestring, "is_game_finished") == 0) {
+            cJSON_AddNumberToObject(response, "game_state", game_finished);
+            cJSON_AddStringToObject(response, "status", "success");
+
+        } else {
             perror("[Warning] Unknown client action request\n");
             cJSON_AddStringToObject(response, "status", "unknown_action");
         }

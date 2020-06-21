@@ -398,6 +398,7 @@ cJSON *get_players_list() {
         cJSON_AddNumberToObject(player, "playerX", tmp->value.playerX);
         cJSON_AddNumberToObject(player, "pos", tmp->value.pos);
         cJSON_AddStringToObject(player, "carColor", tmp->value.car_color);
+        cJSON_AddNumberToObject(player, "points", tmp->value.points);
 
         cJSON_AddItemToArray(players, player);
         tmp = tmp->next;
@@ -428,12 +429,22 @@ void update_turbo(cJSON *data) {
 }
 
 void update_live(cJSON *data) {
-    int live_id = cJSON_GetObjectItemCaseSensitive(data, "turbo_id")->valueint;
+    int live_id = cJSON_GetObjectItemCaseSensitive(data, "live_id")->valueint;
     modify_live(livesList, live_id, 1);
 }
 
 void reset_turbos() {
     node_tu_t *tmp = turboList;
+    tmp = tmp->next;
+
+    while (tmp != NULL) {
+        tmp->value.taken = 0;
+        tmp = tmp->next;
+    }
+}
+
+void reset_lives() {
+    node_l_t *tmp = livesList;
     tmp = tmp->next;
 
     while (tmp != NULL) {

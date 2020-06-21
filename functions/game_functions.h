@@ -201,7 +201,11 @@ void update_player_info(cJSON *data);
 
 void update_turbo(cJSON *data);
 
+void update_live(cJSON *data);
+
 void reset_turbos();
+
+void reset_lives();
 
 /**
  *

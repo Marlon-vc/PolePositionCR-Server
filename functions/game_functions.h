@@ -188,32 +188,44 @@ cJSON *get_players_list();
 cJSON *create_track();
 
 /**
- * todo comentar
- * @param response
+ * Método para obtener la información del juego
+ * @param response Respuesta que se le va a enviar al cliente
  */
 void get_game_info(cJSON *response);
 
 /**
- * todo comentar
- * @param data
+ * Método para actualizar los datos del jugador
+ * @param data Json con los nuevos datos
  */
 void update_player_info(cJSON *data);
 
+/**
+ * Método para actualizar el estado del turbo
+ * @param data Json con la nueva información
+ */
 void update_turbo(cJSON *data);
 
+/**
+ * Método para actualizar el estado de las vidas
+ * @param data Json con los nuevos datos
+ */
 void update_live(cJSON *data);
 
+/**
+ * Método para colocar todos los turbos como disponibles
+ */
 void reset_turbos();
 
+/**
+ * Método para colocar todas las vidas como disponibles
+ */
 void reset_lives();
 
 /**
- *
- * @param color
- * @return
+ * Método para obtener los puntos del jugador
+ * @param color Color del carro del jugador
+ * @return Entero con los puntos
  */
 int get_player_points(cJSON *color);
-
-void prueba();
 
 #endif //POLEPOSITIONCR_SERVER_GAME_FUNCTIONS_H

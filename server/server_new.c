@@ -1,5 +1,9 @@
 #include "server_new.h"
 
+/**
+ * Método para inicializar el socket del servidor
+ * @return Retorna un código de estado
+ */
 int init_config() {
     BOOL opt_val = FALSE;
     int opt_len = sizeof(BOOL);
@@ -47,6 +51,10 @@ int init_config() {
     return 0;
 }
 
+/**
+ * Método principal del servidor
+ * @return Retorna un código de estado
+ */
 int start() {
     server_running= 1;
     game_finished = 0;

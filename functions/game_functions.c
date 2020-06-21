@@ -122,6 +122,9 @@ void load_turbo_list() {
     turboList->next = NULL;
 }
 
+/**
+ * Método para crear los sprites en posiciónes aleatorias
+ */
 void create_sprites() {
     //srand(time(0));
     srand(time(0) * 12897236);
@@ -352,7 +355,6 @@ void remove_turbo(cJSON *id, cJSON *car_color) {
     int pos = find_turbo_pos(turboList, id->valueint);
     remove_at_t(turboList, pos);
     increase_points(playerList, car_color->valuestring, 2);
-    // TODO aumentar la velocidad a 180 km/h
 }
 
 /**
@@ -408,8 +410,8 @@ cJSON *get_players_list() {
 }
 
 /**
- * todo comentar
- * @param response
+ * Método para obtener la información del juego
+ * @param response Respuesta que se le va a enviar al cliente
  */
 void get_game_info(cJSON *response) {
     cJSON *track = create_track();
@@ -423,16 +425,27 @@ void get_game_info(cJSON *response) {
     cJSON_AddItemToObject(response, "turbos", turbos);
 }
 
+/**
+ * Método para actualizar el estado del turbo
+ * @param data Json con la nueva información
+ */
 void update_turbo(cJSON *data) {
     int turbo_id = cJSON_GetObjectItemCaseSensitive(data, "turbo_id")->valueint;
     modify_turbo(turboList, turbo_id, 1);
 }
 
+/**
+ * Método para actualizar el estado de las vidas
+ * @param data Json con los nuevos datos
+ */
 void update_live(cJSON *data) {
     int live_id = cJSON_GetObjectItemCaseSensitive(data, "live_id")->valueint;
     modify_live(livesList, live_id, 1);
 }
 
+/**
+ * Método para colocar todos los turbos como disponibles
+ */
 void reset_turbos() {
     node_tu_t *tmp = turboList;
     tmp = tmp->next;
@@ -443,6 +456,9 @@ void reset_turbos() {
     }
 }
 
+/**
+ * Método para colocar todas las vidas como disponibles
+ */
 void reset_lives() {
     node_l_t *tmp = livesList;
     tmp = tmp->next;
@@ -454,8 +470,8 @@ void reset_lives() {
 }
 
 /**
- * todo comentar
- * @param data
+ * Método para actualizar los datos del jugador
+ * @param data Json con los nuevos datos
  */
 void update_player_info(cJSON *data) {
     cJSON *pos = cJSON_GetObjectItemCaseSensitive(data, "pos");
@@ -467,99 +483,10 @@ void update_player_info(cJSON *data) {
     update_player(pos, playerX, carColor, lives, points);
 }
 
-void prueba() {
-    struct player p1 = {0, 0, 0, 3, "Rojo", 0};
-    struct player p2 = {0, 0, 0, 3, "Azul", 0};
-    struct player p3 = {0, 0, 0, 3, "Morado", 0};
-    struct player p4 = {0, 0, 0, 3, "Blanco", 0};
-//
-    insert_end_p(playerList, p1);
-    insert_end_p(playerList, p2);
-    insert_end_p(playerList, p3);
-    insert_end_p(playerList, p4);
-    printf("\n");
-    print_list_p(playerList);
-
-    modify_player(playerList, 1, 2, -1, "Rojo", 9);
-    printf("\n");
-    print_list_p(playerList);
-    modify_player(playerList, 1, 2, -4, "Rojo", -10);
-    printf("\n");
-    print_list_p(playerList);
-//    printf("\n");
-//    increase_live(playerList, "Rojo");
-//    increase_points(playerList, "Rojo", 20);
-//    print_list_p(playerList);
-//    printf("\n");
-//    struct hole h1 = {0, 20, 30};
-//    struct hole h2 = {1, 50, 40};
-//    struct hole h3 = {2, 40, 60};
-//
-//    struct live l1 = {0, 10, 50};
-//    struct live l2 = {1, 20, 40};
-//    struct live l3 = {2, 30, 30};
-//
-//    struct turbo t1 = {0, 90, 40};
-//    struct turbo t2 = {1, 100, 0};
-//    struct turbo t3 = {2, 30, 20};
-//
-//    insert_end_h(holeList, h1);
-//    insert_end_h(holeList, h2);
-//    insert_end_h(holeList, h3);
-//
-//    insert_end_l(livesList, l1);
-//    insert_end_l(livesList, l2);
-//    insert_end_l(livesList, l3);
-//
-//    insert_end_t(turboList, t1);
-//    insert_end_t(turboList, t2);
-//    insert_end_t(turboList, t3);
-////
-//    printf("\n");
-//    print_list_h(holeList);
-//    printf("\n");
-//    print_list_l(livesList);
-//    printf("\n");
-//    print_list_t(turboList);
-//    printf("\n");
-//    create_sprites();
-//    print_list_h(holeList);
-//    printf("\n");
-//    print_list_l(livesList);
-//    printf("\n");
-//    print_list_t(turboList);
-//    printf("\n");
-
-//    int pos = find_hole_pos(holeList, 1);
-//    printf("pos to delete %i \n", pos);
-//    remove_at_h(holeList, pos);
-//    print_list_h(holeList);
-//    printf("\n");
-//
-//    printf("\n");
-//    print_list_l(livesList);
-//    printf("\n");
-//    int pos1 = find_live_pos(livesList, 2);
-//    printf("pos to delete %i \n", pos1);
-//    remove_at_l(livesList, pos1);
-//    print_list_l(livesList);
-//    printf("\n");
-//
-//    printf("\n");
-//    print_list_t(turboList);
-//    printf("\n");
-//    int pos2 = find_turbo_pos(turboList, 0);
-//    printf("pos to delete %i \n", pos2);
-//    remove_at_t(turboList, pos2);
-//    print_list_t(turboList);
-//    printf("\n");
-
-}
-
 /**
- *
- * @param color
- * @return
+ * Método para obtener los puntos del jugador
+ * @param color Color del carro del jugador
+ * @return Entero con los puntos
  */
 int get_player_points(cJSON *color) {
     return get_points_p(playerList, color->string);
